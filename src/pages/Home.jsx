@@ -8,7 +8,7 @@ import about_us_bg from '../assets/about_us_bg.png';
 import guide_icon_1 from '../assets/guide_icon_1.png';
 import guide_icon_2 from '../assets/guide_icon_2.png';
 import guide_icon_3 from '../assets/guide_icon_3.png';
-import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
+import { Search } from "lucide-react";
 
 const Home = () => {
   const dashboardCards = [
@@ -185,7 +185,7 @@ const Home = () => {
                   placeholder="Search"
                   className="font-raleway w-full bg-[#467405] text-white placeholder-white/80 px-6 py-1 rounded-full focus:outline-none shadow-md"
                 />
-                <HiOutlineMagnifyingGlass className="w-5 h-5 absolute right-5 top-1.5 text-white/90 stroke-2" />
+                <Search className="w-5 h-5 absolute right-5 top-1.5 text-white/90 stroke-2" />
               </div>
             </div>
           </div>
@@ -257,7 +257,7 @@ const Home = () => {
               placeholder="Search"
               className="font-raleway w-full bg-emb-blue opacity-50 text-white placeholder-white/80 px-6 py-1 rounded-full focus:outline-none shadow-md"
             />
-            <HiOutlineMagnifyingGlass className="w-5 h-5 absolute right-48 top-1.5 text-white/90 stroke-2" />
+            <Search className="w-5 h-5 absolute right-48 top-1.5 text-white/90 stroke-2" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
