@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* This maps 'font-raleway' to the Raleway font family */
+  --font-raleway: "Raleway", sans-serif;
+  
+  /* This maps 'font-merriweather' to the Merriweather font family */
+  --font-merriweather: "Merriweather", serif;
+
+  /* Colors from your selection */
+  --color-emb-blue: #04578F;       /* The main dark blue */
+  --color-emb-blue-light: #4888B3; /* The lighter blue */
+  --color-emb-green: #518B05;      /* The main dark green */
+  --color-emb-green-light: #B4CE1F; /* The lime green */
+  --color-emb-bg: #EDF4F9;         /* The off-white/light blue background */
+}
+
+html {
+  scroll-behavior: smooth;
+}
