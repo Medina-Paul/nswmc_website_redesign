@@ -89,94 +89,85 @@ const lawsData = [
 export default function Laws() {
   return (
     <Layout>
-      <div className="p-4 md:p-6 min-h-screen">
+      <div className="p-2 sm:p-4 md:p-6 min-h-screen">
         {/* Banner */}
-       <div className="w-full mb-12 max-w-6xl mx-auto rounded-[30px] shadow-lg bg-gradient-to-r from-[#6b9e15] via-[#8ac926] to-[#5b8712] relative overflow-hidden flex items-center justify-between px-8 py-10 md:px-14 md:py-12">
+       <div className="w-full mb-8 md:mb-12 max-w-6xl mx-auto rounded-xl md:rounded-[30px] shadow-lg bg-gradient-to-r from-[#6b9e15] via-[#8ac926] to-[#5b8712] relative overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 sm:px-8 md:px-14 py-6 sm:py-10 md:py-12">
       
       {/* Left Side: Text Content */}
       <div className="flex flex-col z-10 max-w-2xl">
-        {/* 
-            Main Title 
-            Using a custom drop-shadow to match the heavy 3D text effect in your image 
-        */}
-        <h1 className="text-5xl font-raleway md:text-6xl lg:text-7xl font-black text-white tracking-wide drop-shadow-[0_5px_5px_rgba(0,0,0,0.4)] mb-3">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-raleway font-black text-white tracking-wide drop-shadow-[0_5px_5px_rgba(0,0,0,0.4)] mb-2 md:mb-3">
           LAWS & POLICIES
         </h1>
         
         {/* Subtitle */}
-        <p className="text-white font-merriweather italic text-sm md:text-base lg:text-lg leading-snug font-medium drop-shadow-sm opacity-95">
+        <p className="text-white font-merriweather italic text-xs sm:text-sm md:text-base lg:text-lg leading-snug font-medium drop-shadow-sm opacity-95">
           Environmental Management Bureau <br />
           SWMD's passed laws and policies
         </p>
       </div>
 
-      {/* 
-          Right Side: Image 
-          Using absolute positioning on mobile so it doesn't squish the text, 
-          and relative positioning on larger screens.
-      */}
-      <div className="absolute right-[-20px] bottom-[-20px] md:relative md:right-0 md:bottom-0 opacity-30 md:opacity-100 pointer-events-none">
+      {/* Right Side: Image */}
+      <div className="absolute right-[-15px] bottom-[-15px] sm:right-[-20px] sm:bottom-[-20px] md:relative md:right-0 md:bottom-0 opacity-20 sm:opacity-30 md:opacity-100 pointer-events-none">
         <img 
-          // REPLACE THIS SRC WITH YOUR ACTUAL GAVEL IMAGE PATH
           src={laws_icon} 
           alt="Gavel and Law Book" 
-          className="w-48 md:w-64 lg:w-72 object-contain drop-shadow-2xl"
+          className="w-40 sm:w-48 md:w-64 lg:w-72 object-contain drop-shadow-2xl"
         />
       </div>
 
     </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-raleway">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 font-raleway">
         {/* LEFT FILTER PANEL */}
-        <div className="bg-white p-4 shadow-sm h-fit">
-          <h2 className="font-semibold mb-3">Search</h2>
-          <div className="flex items-center border rounded-lg px-2 mb-4">
+        <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 shadow-sm h-fit rounded-lg md:rounded-xl transition-colors">
+          <h2 className="font-semibold mb-2 md:mb-3 text-sm md:text-base transition-colors dark:text-white">Search</h2>
+          <div className="flex items-center border rounded-lg px-2 mb-3 md:mb-4 dark:border-slate-700 dark:bg-slate-900">
             <input
               type="text"
               placeholder="Type a keyword"
-              className="w-full p-2 outline-none"
+              className="w-full p-2 outline-none text-xs md:text-sm bg-transparent dark:text-white transition-colors"
             />
-            <Search size={18} />
+            <Search size={16} className="dark:text-gray-400" />
           </div>
 
-          <label className="block text-sm font-medium mb-1">Category</label>
-          <select className="w-full border rounded-lg p-2 mb-4">
+          <label className="block text-xs md:text-sm font-medium mb-1 dark:text-gray-300">Category</label>
+          <select className="w-full border rounded-lg p-2 mb-3 md:mb-4 text-xs md:text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white">
             <option>Category</option>
           </select>
 
-          <label className="block text-sm font-medium mb-1">
+          <label className="block text-xs md:text-sm font-medium mb-1 dark:text-gray-300">
             Law Number
           </label>
-          <input className="w-full border rounded-lg p-2 mb-4" />
+          <input className="w-full border rounded-lg p-2 mb-3 md:mb-4 text-xs md:text-sm dark:border-slate-700 dark:bg-slate-900 dark:text-white" />
 
-          <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg">
+          <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-xs md:text-sm font-medium transition">
             SEARCH
           </button>
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="md:col-span-2 space-y-6">
+        <div className="md:col-span-2 space-y-4 md:space-y-6">
           {lawsData.map((section, idx) => (
             <div key={idx}>
-              <h3 className="font-semibold text-lg mb-3 font-raleway">
+              <h3 className="font-semibold text-sm md:text-lg mb-2 md:mb-3 font-raleway dark:text-white transition-colors">
                 {section.type}
               </h3>
 
-              <div className="space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {section.items.map((item, i) => (
                   <div
                     key={i}
-                    className="bg-white p-4 shadow-sm"
+                    className="bg-white dark:bg-slate-800 p-3 md:p-4 shadow-sm rounded-lg transition-colors"
                   >
-                    <div className="flex flex-row md:items-center">
-                      <p className="text-sm text-gray-600 font-raleway">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+                      <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-raleway">
                         {item.date} |
                       </p>
-                      <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 font-raleway font-semibold">
+                      <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 font-raleway font-semibold text-xs md:text-sm">
                          &nbsp; {item.code}
                       </a>
                     </div>
-                    <p className="text-sm mt-2 text-gray-700 font-merriweather">
+                    <p className="text-xs md:text-sm mt-1 md:mt-2 text-gray-700 dark:text-gray-300 font-merriweather transition-colors">
                       {item.description}
                     </p>
                   </div>
@@ -188,18 +179,18 @@ export default function Laws() {
       </div>
 
       {/* Bottom Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-        <div className="bg-white p-4 rounded-xl shadow-sm">
-          <h4 className="font-bold text-orange-500 mb-2 font-raleway">MISSION</h4>
-          <p className="text-sm text-gray-600 font-merriweather">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8">
+        <div className="bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
+          <h4 className="font-bold text-orange-500 mb-2 font-raleway text-sm md:text-base">MISSION</h4>
+          <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
             To protect, restore and enhance environmental quality towards good
             public health, environmental integrity and economic viability.
           </p>
         </div>
 
-        <div className="bg-white p-4 rounded-xl shadow-sm">
-          <h4 className="font-bold text-green-600 mb-2 font-raleway">VISION</h4>
-          <p className="text-sm text-gray-600 font-merriweather">
+        <div className="bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
+          <h4 className="font-bold text-green-600 dark:text-green-400 mb-2 font-raleway text-sm md:text-base">VISION</h4>
+          <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
             A nation empowered to protect our natural resources, attuned to the
             pursuit of sustainable development.
           </p>
