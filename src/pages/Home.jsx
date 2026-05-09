@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// cSpell:disable
+import React, { useState, useMemo } from 'react';
 import Layout from '../components/Layout';
 import hero_icon_1 from '../assets/hero_icon_1.png';
 import transparent_seal from '../assets/transparency_seal.svg';
@@ -8,6 +9,7 @@ import guide_icon_1 from '../assets/guide_icon_1.png';
 import guide_icon_2 from '../assets/guide_icon_2.png';
 import guide_icon_3 from '../assets/guide_icon_3.png';
 import { Search } from "lucide-react";
+
 
 const Home = () => {
   const dashboardCards = [
@@ -50,6 +52,18 @@ const Home = () => {
   const [activeNews, setActiveNews] = useState(0);
   const [activeProject, setActiveProject] = useState(0);
   const [activeGuide, setActiveGuide] = useState(0);
+  const [archiveQuery, setArchiveQuery] = useState('');
+
+  const filteredDashboardCards = useMemo(() => {
+    const q = archiveQuery.trim().toLowerCase();
+    if (!q) return dashboardCards;
+    // split into tokens so "marine plastic" matches cards containing both words
+    const tokens = q.split(/\s+/);
+    return dashboardCards.filter((card) => {
+      const haystack = `${card.title} ${card.description}`.toLowerCase();
+      return tokens.every((t) => haystack.includes(t));
+    });
+  }, [archiveQuery]);
 
   // Helper functions for infinite looping navigation
   const nextSlide = (setter, length) => setter((prev) => (prev + 1) % length);
@@ -60,7 +74,7 @@ const Home = () => {
       <div className="flex flex-col space-y-5 w-full relative z-0 transition-colors duration-500">
 
         {/* 1. HERO SECTION */}
-        <section 
+        <section
           className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] overflow-hidden min-h-[500px] sm:min-h-[600px] lg:min-h-screen flex items-center shadow-sm bg-[#f4fbf9] dark:bg-slate-950 transition-colors duration-500"
         >
           {/* Background Gradients Fix */}
@@ -98,17 +112,17 @@ const Home = () => {
         </section>
 
         {/* 2. RIBBON BAR */}
-        <section 
+        <section
           className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] font-raleway flex flex-wrap justify-center gap-12 border-y-2 border-gray-100 dark:border-slate-800 py-4 text-emb-blue dark:text-blue-200 font-bold text-sm text-center bg-gradient-to-tr from-blue-50 via-blue-50 to-blue-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-500"
-        >          
+        >
           <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"> <span>GOV PH</span></div>
           <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"><img className='w-10 h-10' src={foi_seal} alt="FOI Seal" /> <span>FREEDOM OF INFORMATION</span></div>
           <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"><img className='w-10 h-10' src={transparent_seal} alt="Transparency Seal" /> <span>TRANSPARENCY SEAL</span></div>
         </section>
 
         {/* 3. ABOUT SWMD SECTION */}
-        <section 
-          className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] font-raleway text-center py-16 min-h-[600px] lg:min-h-screen flex flex-col justify-center items-center overflow-hidden" 
+        <section
+          className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] font-raleway text-center py-16 min-h-[600px] lg:min-h-screen flex flex-col justify-center items-center overflow-hidden"
         >
           <div className="absolute inset-0 z-0 bg-cover bg-center opacity-100 dark:opacity-30 transition-opacity duration-500" style={{ backgroundImage: `url(${about_us_bg})` }}></div>
           <div className="absolute inset-0 z-0 bg-transparent dark:bg-slate-900/80"></div>
@@ -127,18 +141,18 @@ const Home = () => {
             {/* 4 Cards Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 opacity-95">
               {[
-                { title: 'Solid Waste Management Division', color: 'bg-[#315502] dark:bg-green-900' },
-                { title: 'Organizational Chart', color: 'bg-[#4B8004] dark:bg-green-800' },
-                { title: 'NSWMC Commissioners', color: 'bg-[#74C609] dark:bg-green-700' },
-                { title: "Citizen Charter's On SWM", color: 'bg-[#BFDF03] dark:bg-lime-600' },
+                { title: 'Solid Waste Management Division', color: 'bg-[#315502] dark:bg-green-900', link: '/about' },
+                { title: 'Organizational Chart', color: 'bg-[#4B8004] dark:bg-green-800', link: '/about/org-chart' },
+                { title: 'NSWMC Commissioners', color: 'bg-[#74C609] dark:bg-green-700', link: '/about/commissioners' },
+                { title: 'Citizen Charter on SWM', color: 'bg-[#BFDF03] dark:bg-lime-600', link: '/about/citizens-charter' },
               ].map((item, i) => (
-                <div key={i} className={`${item.color} shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer px-5 py-8 rounded-2xl flex flex-col justify-between text-left h-48 border border-white/20 dark:border-white/10 group`}>
+                <a key={i} href={item.link} className={`${item.color} shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer px-5 py-8 rounded-2xl flex flex-col justify-between text-left h-48 border border-white/20 dark:border-white/10 group`}>
                   <h3 className="font-bold text-white text-lg leading-tight group-hover:scale-[1.02] transition-transform">{item.title}</h3>
                   <div className="flex justify-between items-center text-white/90 text-sm font-semibold">
                     <span className="group-hover:text-white transition-colors">View page</span>
                     <span className="text-2xl group-hover:translate-x-1 transition-transform">›</span>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -150,23 +164,35 @@ const Home = () => {
           <p className="text-emb-blue dark:text-slate-400 mb-6 sm:mb-8 max-w-3xl mx-auto text-xs sm:text-sm transition-colors">Explore tools, data, and resources designed to support better waste management. From dashboards and policy guides to facility designs and best practices, this section helps you discover solutions, track progress, and take action toward a cleaner, more sustainable future.</p>
 
           <div className="relative w-full max-w-3xl mx-auto group my-4 sm:my-7">
-            <input type="text" placeholder="Search" className="font-raleway w-full bg-emb-blue dark:bg-slate-800 opacity-50 text-white placeholder-white/80 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full focus:outline-none focus:opacity-80 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 text-xs sm:text-base" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={archiveQuery}
+              onChange={(e) => setArchiveQuery(e.target.value)}
+              className="font-raleway w-full bg-emb-blue dark:bg-slate-800 opacity-50 text-white placeholder-white/80 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full focus:outline-none focus:opacity-80 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 text-xs sm:text-base"
+            />
             <Search className="w-4 sm:w-5 h-4 sm:h-5 absolute right-3 sm:right-5 top-2.5 sm:top-3 text-white/90 stroke-2 group-hover:scale-110 transition-transform" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            {dashboardCards.map((item, i) => (
-              <a key={i} href={item.link} className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-between min-h-[240px] sm:h-56 text-left hover:-translate-y-2 hover:shadow-xl hover:border-emb-green dark:hover:border-green-500 transition-all duration-300 group">
-                <div>
-                  <h3 className="font-bold text-emb-blue dark:text-blue-300 text-xs sm:text-md leading-tight transition-colors">{item.title}</h3>
-                  <p className="text-[0.65rem] sm:text-xs text-gray-500 dark:text-gray-400 mt-2 sm:mt-3 line-clamp-4 leading-relaxed transition-colors">{item.description}</p>
-                </div>
-                <div className="mt-auto pt-3 sm:pt-4 text-xs text-emb-blue dark:text-blue-400 font-bold flex items-center group-hover:text-emb-green dark:group-hover:text-green-400 transition-colors">
-                  View Page <span className="ml-1 group-hover:translate-x-2 transition-transform duration-300">&rarr;</span>
-                </div>
-              </a>
-            ))}
-          </div>
+          {filteredDashboardCards.length === 0 ? (
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 py-8">
+              No dashboards match &ldquo;{archiveQuery}&rdquo;.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+              {filteredDashboardCards.map((item, i) => (
+                <a key={i} href={item.link} className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-between min-h-[240px] sm:h-56 text-left hover:-translate-y-2 hover:shadow-xl hover:border-emb-green dark:hover:border-green-500 transition-all duration-300 group">
+                  <div>
+                    <h3 className="font-bold text-emb-blue dark:text-blue-300 text-xs sm:text-md leading-tight transition-colors">{item.title}</h3>
+                    <p className="text-[0.65rem] sm:text-xs text-gray-500 dark:text-gray-400 mt-2 sm:mt-3 line-clamp-4 leading-relaxed transition-colors">{item.description}</p>
+                  </div>
+                  <div className="mt-auto pt-3 sm:pt-4 text-xs text-emb-blue dark:text-blue-400 font-bold flex items-center group-hover:text-emb-green dark:group-hover:text-green-400 transition-colors">
+                    View Page <span className="ml-1 group-hover:translate-x-2 transition-transform duration-300">&rarr;</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* FEATURED CONTENTS SECTION */}
@@ -178,7 +204,7 @@ const Home = () => {
           {/* NEWS BLOCK */}
           <div className="mb-12 sm:mb-16 relative">
             <h3 className="font-raleway font-bold text-[#1a5b8c] dark:text-blue-300 text-sm sm:text-xl mb-6 sm:mb-8 px-2 sm:px-4 md:px-8 text-center md:text-left transition-colors">NEWS</h3>
-            
+
             <div className="relative w-full h-[120px] sm:h-[150px] flex justify-center items-center overflow-visible">
               {newsItems.map((item, idx) => {
                 const diff = (idx - activeNews + newsItems.length) % newsItems.length;
@@ -193,8 +219,8 @@ const Home = () => {
                 }
 
                 return (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     onClick={() => setActiveNews(idx)}
                     className={`absolute transition-all duration-700 ease-in-out cursor-pointer w-[260px] sm:w-[340px] md:w-[400px] flex items-center bg-white dark:bg-slate-800 border border-[#b6def4] dark:border-slate-700 rounded-lg sm:rounded-2xl p-1.5 sm:p-2 ${positionClasses}`}
                   >
@@ -229,7 +255,7 @@ const Home = () => {
           {/* FEATURED PROJECT BLOCK */}
           <div className="mb-16 relative">
             <h3 className="font-raleway font-bold text-[#1a5b8c] dark:text-blue-300 text-xl mb-8 px-4 md:px-8 text-center md:text-left transition-colors">FEATURED PROJECT</h3>
-            
+
             <div className="relative w-full h-[150px] flex justify-center items-center overflow-visible">
               {projectItems.map((item, idx) => {
                 const diff = (idx - activeProject + projectItems.length) % projectItems.length;
@@ -244,8 +270,8 @@ const Home = () => {
                 }
 
                 return (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     onClick={() => setActiveProject(idx)}
                     className={`absolute transition-all duration-700 ease-in-out cursor-pointer w-[340px] md:w-[400px] flex items-center bg-white dark:bg-slate-800 border border-[#b6def4] dark:border-slate-700 rounded-2xl p-2 ${positionClasses}`}
                   >
