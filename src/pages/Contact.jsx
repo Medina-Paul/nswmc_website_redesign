@@ -31,8 +31,8 @@ const FloatingLabelInput = ({ id, label, type = 'text', value, onChange, error =
         htmlFor={id}
         className={`absolute left-4 sm:left-5 text-xs sm:text-sm md:text-base font-medium pointer-events-none transition-all duration-300 origin-left transform ${
           isFocused || hasValue
-            ? 'translate-y-[-28px] sm:translate-y-[-32px] md:translate-y-[-36px] scale-90 -translate-x-0'
-            : 'translate-y-3 sm:translate-y-4 scale-100'
+            ? 'top-0 -translate-y-1/2 scale-90 px-1 bg-white dark:bg-slate-700'
+            : 'top-0 translate-y-3 sm:translate-y-4 scale-100'
         } ${
           error
             ? 'text-red-600 dark:text-red-400'
@@ -47,7 +47,7 @@ const FloatingLabelInput = ({ id, label, type = 'text', value, onChange, error =
       {/* Bottom border accent */}
       <div
         className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#8cc63f] to-emb-blue transition-all duration-300 ${
-          isFocused ? 'w-full' : 'w-0'
+          isFocused && !error ? 'w-full' : 'w-0'
         }`}
       />
     </div>
@@ -83,8 +83,8 @@ const FloatingLabelTextarea = ({ id, label, value, onChange, error = false, rows
         htmlFor={id}
         className={`absolute left-4 sm:left-5 text-xs sm:text-sm md:text-base font-medium pointer-events-none transition-all duration-300 origin-left transform ${
           isFocused || hasValue
-            ? 'translate-y-[-28px] sm:translate-y-[-32px] md:translate-y-[-36px] scale-90 -translate-x-0'
-            : 'translate-y-3 sm:translate-y-4 scale-100'
+            ? 'top-0 -translate-y-1/2 scale-90 px-1 bg-white dark:bg-slate-700'
+            : 'top-0 translate-y-3 sm:translate-y-4 scale-100'
         } ${
           error
             ? 'text-red-600 dark:text-red-400'
@@ -99,7 +99,7 @@ const FloatingLabelTextarea = ({ id, label, value, onChange, error = false, rows
       {/* Bottom border accent */}
       <div
         className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#8cc63f] to-emb-blue transition-all duration-300 ${
-          isFocused ? 'w-full' : 'w-0'
+          isFocused && !error ? 'w-full' : 'w-0'
         }`}
       />
     </div>
@@ -331,7 +331,7 @@ const Contact = () => {
         {/* Map Section - Full Width */}
         <div className="mt-8 md:mt-12 rounded-lg md:rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-slate-700">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6443.1234567890!2d121.0123456!3d14.6123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDM2JzQ0LjQiTiAxMjHCsDAwJzQ0LjQiRQ!5e0!3m2!1sen!2sph!4v1234567890"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.993299373034!2d121.04214307589754!3d14.656321675708485!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b71a8991dbfd%3A0x2c7b48366341b876!2sEMB%20Central%20Office!5e0!3m2!1sen!2sph!4v1750834246003!5m2!1sen!2sph "
             width="100%"
             height="350"
             style={{ border: 0, minHeight: '300px' }}
