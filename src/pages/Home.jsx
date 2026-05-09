@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import hero_icon_1 from '../assets/hero_icon_1.png';
-import transparent_seal from '../assets/transparent_seal.png';
-import foi_seal from '../assets/foi_seal.png';
+import transparent_seal from '../assets/transparency_seal.svg';
+import foi_seal from '../assets/foi.svg';
 import about_us_bg from '../assets/about_us_bg.png';
 import guide_icon_1 from '../assets/guide_icon_1.png';
 import guide_icon_2 from '../assets/guide_icon_2.png';

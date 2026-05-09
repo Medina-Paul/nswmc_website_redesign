@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import SWMDLogo from '../assets/SWMD_LOGO 1.png';
-import bagong_pilipinas_icon from '../assets/bagong_pilipinas_icon.png';
-import coat_of_arms_icon from '../assets/coat_of_arms_icon.png';
+import SWMDLogo from '../assets/denr.svg';
+import bagong_pilipinas_icon from '../assets/bagong_pilipinas.svg';
+import coat_of_arms_icon from '../assets/coat_of_arms.svg';
 
 const Layout = ({ children }) => {
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
