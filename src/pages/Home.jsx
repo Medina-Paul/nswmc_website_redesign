@@ -25,7 +25,7 @@ const Home = () => {
     { title: 'JICA TCP Outputs', description: 'Reports and deliverables from JICA technical cooperation projects.', link: 'https://drive.google.com/drive/folders/1TryMCsd8vbtohTYxwCv86WJbrkQVg5Wr' },
     { title: 'SMEC Waste-to-Energy Study', description: 'Research on converting waste into usable energy solutions.', link: 'https://drive.google.com/drive/folders/1R2xFrdwoqY9yn1QXaIOocKXGsJql2EE0' },
     { title: 'Nestle Student Modules', description: 'Learning materials on sustainability and responsible waste practices.', link: 'https://drive.google.com/drive/folders/1z5L_1ejrgNw8KzfZ-spWyVBY1YTllX9U' },
-    { title: 'LGU Good Practices', description: 'Collection of successful waste management initiatives by local governments.', link: 'https://drive.google.com/drive/folders/1rE2VulXT9_GGsEBnlUyj_AGNOKCi-lCH' }
+    { title: 'LGU Good Practices', description: 'Collection of successful waste management initiatives by local governments.', link: 'https://drive.google.com/drive/folders/1rE2VulXT9_GGsEBnlUyj_AGNOKCi-lCH' },
     { title: 'Climate Change Reports', description: 'Collection of national and global reports focused on climate change.', link: 'https://drive.google.com/drive/folders/1aBF3E3_Jtn-xmW-UHQDwzUq7OLAtYnUD' }
   ];
 
