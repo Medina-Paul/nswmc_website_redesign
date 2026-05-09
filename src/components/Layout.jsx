@@ -167,10 +167,10 @@ const Layout = ({ children }) => {
         <div className="w-full mx-auto px-6 md:px-16 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 bg-footer-bg dark:bg-gray-900">
           <div className="flex flex-col items-center sm:items-start space-y-4">
             <div className="flex flex-row md:flex-col items-center sm:items-start gap-4">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 rounded-full shadow-sm">
+              <div className="w-16 h-16 md:w-20 md:h-20">
                 <img src={coat_of_arms_icon} alt="Coat of Arms" className="w-full h-full object-contain p-1" />
               </div>
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-200 rounded-full shadow-sm">
+              <div className="w-16 h-16 md:w-20 md:h-20">
                 <img src={bagong_pilipinas_icon} alt="Bagong Pilipinas" className="w-full h-full object-contain p-1" />
               </div>
             </div>
