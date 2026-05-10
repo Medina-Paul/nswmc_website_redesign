@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import Layout from '../components/Layout';
 import { MapPin, Mail, Phone, Clock } from 'lucide-react';
 
@@ -11,6 +12,7 @@ const FloatingLabelInput = ({ id, label, type = 'text', value, onChange, error =
     <div className="relative w-full group">
       <input
         id={id}
+        name={id}
         type={type}
         value={value}
         onChange={onChange}
@@ -25,8 +27,7 @@ const FloatingLabelInput = ({ id, label, type = 'text', value, onChange, error =
         }`}
         placeholder={label}
       />
-      
-      {/* Animated Label */}
+            {/* Animated Label */}
       <label
         htmlFor={id}
         className={`absolute left-4 sm:left-5 text-xs sm:text-sm md:text-base font-medium pointer-events-none transition-all duration-300 origin-left transform ${
@@ -63,6 +64,7 @@ const FloatingLabelTextarea = ({ id, label, value, onChange, error = false, rows
     <div className="relative w-full group">
       <textarea
         id={id}
+        name={id}
         value={value}
         onChange={onChange}
         onFocus={() => setIsFocused(true)}
@@ -107,13 +109,7 @@ const FloatingLabelTextarea = ({ id, label, value, onChange, error = false, rows
 };
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
@@ -130,22 +126,13 @@ const Contact = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = validateForm();
-    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -155,14 +142,23 @@ const Contact = () => {
     setSubmitMessage('');
 
     try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,        // -> {{name}}  (From Name + body)
+          email: formData.email,      // -> {{email}} (Reply To, Cc, Bcc)
+          subject: formData.subject,  // -> {{subject}}
+          message: formData.message,  // -> {{message}}
+        },
+        { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
+      );
+
       setSubmitMessage('Message sent successfully! We will get back to you soon.');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
       setTimeout(() => setSubmitMessage(''), 5000);
     } catch (error) {
+      console.error('EmailJS error:', error);
       setSubmitMessage('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
