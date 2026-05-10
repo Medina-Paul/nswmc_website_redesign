@@ -2,11 +2,35 @@ import React from 'react'
 import Layout from '../components/Layout';
 import swmd_logo from '../assets/swmd_logo.png';
 
+// --- Staff portraits (drop the matching PNGs into src/assets/orgpics/) ---
+import valdez_img from '../assets/orgpics/maria.png';
+import clarina_img from '../assets/orgpics/clarina.png';
+import gerard_img from '../assets/orgpics/gerard.png';
+import joan_img from '../assets/orgpics/joan.png';
+import enrico_img from '../assets/orgpics/enrico.png';
+import eric_img from '../assets/orgpics/eric.png';
+import mohammad_img from '../assets/orgpics/mohammad.png';
+import raymond_img from '../assets/orgpics/raymond.png';
+import benhur_img from '../assets/orgpics/benhur.png';
+import ramil_img from '../assets/orgpics/ramil.png';
+import juvinia_img from '../assets/orgpics/juvinia.png';
+import rachel_img from '../assets/orgpics/rachel.png';
+import cynthia_img from '../assets/orgpics/cynthia.png';
+import gabrielle_img from '../assets/orgpics/gabrielle.png';
+import giovanni_img from '../assets/orgpics/giovanni.png';
+import homer_img from '../assets/orgpics/homer.png';
+import arniel_img from '../assets/orgpics/arniel.png';
+import rodeth_img from '../assets/orgpics/rodeth.png';
+import sawadjaan_img from '../assets/orgpics/ahmed.png';
+import jepp_img from '../assets/orgpics/jepp.png';
+import rey_img from '../assets/orgpics/rey.png';
+import gio_img from '../assets/orgpics/gio.png';
+
 // ==========================================
 // REUSABLE SUB-COMPONENTS FOR THE ORG CHART
 // ==========================================
 
-const StaffProfile = ({ name, title, additional = null, isChief = false }) => {
+const StaffProfile = ({ name, title, additional = null, isChief = false, img = null }) => {
   return (
     <div className={`relative flex flex-col items-center justify-center p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl w-full max-w-[340px] mx-auto border z-10
       ${isChief
@@ -14,6 +38,17 @@ const StaffProfile = ({ name, title, additional = null, isChief = false }) => {
         : 'bg-white dark:bg-slate-800 border-gray-100 dark:border-slate-700 shadow-sm'
       }`}
     >
+      {/* Portrait — same gradient + rounded-top look used in Commissioners.jsx */}
+      {img && (
+        <div className={`${isChief ? 'h-40 w-40 md:h-48 md:w-48' : 'h-32 w-32 md:h-36 md:w-36'} mb-4 rounded-full overflow-hidden bg-gradient-to-b from-[#cff1c2] to-[#3a93a1] dark:from-green-900 dark:to-blue-900 flex items-end justify-center shadow-md ring-2 ring-white dark:ring-slate-700 transition-colors`}>
+          <img
+            src={img}
+            alt={name}
+            className="w-[110%] h-[110%] object-cover object-top drop-shadow-lg"
+          />
+        </div>
+      )}
+
       <h3 className={`font-black drop-shadow-sm font-raleway leading-tight mb-3 text-center transition-colors
         ${isChief ? 'text-[#1a5b8c] dark:text-blue-400 text-[1.25rem]' : 'text-[#1a5b8c] dark:text-blue-300 text-[1.1rem]'}`}>
         {name}
@@ -58,6 +93,7 @@ const OrgChart = () => {
               name="MARIA DELIA CRISTINA M. VALDEZ"
               title="Chief, Solid Waste Management Division"
               isChief={true}
+              img={valdez_img}
             />
             {/* Vertical Connector Line */}
             <div className="hidden md:block absolute w-px h-12 bg-blue-200 dark:bg-slate-700 left-1/2 -bottom-12 -translate-x-1/2 z-0"></div>
@@ -71,12 +107,12 @@ const OrgChart = () => {
             <div className="pt-0 md:pt-8 flex justify-center relative">
               {/* Vertical Connector Line */}
               <div className="hidden md:block absolute w-px h-8 bg-blue-200 dark:bg-slate-700 left-1/2 top-0 -translate-x-1/2 z-0"></div>
-              <StaffProfile name="CLARINA S. CAPISTRANO" title="Project Development Officer I" />
+              <StaffProfile name="CLARINA S. CAPISTRANO" title="Project Development Officer I" img={clarina_img} />
             </div>
             <div className="pt-0 md:pt-8 flex justify-center relative">
               {/* Vertical Connector Line */}
               <div className="hidden md:block absolute w-px h-8 bg-blue-200 dark:bg-slate-700 left-1/2 top-0 -translate-x-1/2 z-0"></div>
-              <StaffProfile name="GERARD JAHN D. ALCON" title="Computer Programmer IV <br/> National SWM Database Manager" />
+              <StaffProfile name="GERARD JAHN D. ALCON" title="Computer Programmer IV <br/> National SWM Database Manager" img={gerard_img} />
             </div>
           </div>
 
@@ -92,21 +128,21 @@ const OrgChart = () => {
 
               <GradientPill text="SOLID WASTE POLICY AND PROGRAM DEVELOPMENT SECTION" />
               <div className="w-full mb-6 md:mb-8">
-                <StaffProfile name="JOAN FRANCES F. LABORTE" title="Senior Environmental Management <br/> Specialist | OIC Section Chief" />
+                <StaffProfile name="JOAN FRANCES F. LABORTE" title="Senior Environmental Management <br/> Specialist | OIC Section Chief" img={joan_img} />
               </div>
 
               <GradientPill text="POLICY DEVELOPMENT" small={true} />
               <div className="w-full space-y-4 md:space-y-6 mb-6 md:mb-8">
-                <StaffProfile name="ENGR. ENRICO P. MEDINA" title="Technical Specialist" />
-                <StaffProfile name="ENGR. ERIC M. NAGUM" title="Environmental Management Specialist I <br/> Climate Change - Solid Waste Sector Focal <br/> Team Leader-Old San Mateo SLF Activities" />
-                <StaffProfile name="ENGR. MOHAMMAD I. ABUHANTASH" title="Environmental Management Specialist I" />
+                <StaffProfile name="ENGR. ENRICO P. MEDINA" title="Technical Specialist" img={enrico_img} />
+                <StaffProfile name="ENGR. ERIC M. NAGUM" title="Environmental Management Specialist I <br/> Climate Change - Solid Waste Sector Focal <br/> Team Leader-Old San Mateo SLF Activities" img={eric_img} />
+                <StaffProfile name="ENGR. MOHAMMAD I. ABUHANTASH" title="Environmental Management Specialist I" img={mohammad_img} />
               </div>
 
               <GradientPill text="PROGRAM DEVELOPMENT AND IMPLEMENTATION" small={true} />
               <div className="w-full space-y-4 md:space-y-6">
-                <StaffProfile name="RAYMOND MAREON P. BLAQUERA" title="Environmental Management Specialist I" />
-                <StaffProfile name="BEN HUR V. MALANA" title="Administrative Officer V <br/> San Mateo SLF and MRF Support" />
-                <StaffProfile name="RAMIL B. SOTOZA" title="Administrative Support IV <br/> MRF Operator" />
+                <StaffProfile name="RAYMOND MAREON P. BLAQUERA" title="Environmental Management Specialist I" img={raymond_img} />
+                <StaffProfile name="BEN HUR V. MALANA" title="Administrative Officer V <br/> San Mateo SLF and MRF Support" img={benhur_img} />
+                <StaffProfile name="RAMIL B. SOTOZA" title="Administrative Support IV <br/> MRF Operator" img={ramil_img} />
               </div>
             </div>
 
@@ -117,26 +153,26 @@ const OrgChart = () => {
 
               <GradientPill text="NSWMC SECRETARIAT AND TECHNICAL SERVICES SECTION" />
               <div className="w-full mb-6 md:mb-8">
-                <StaffProfile name="JUVINIA P. SERAFIN, MDM" title="Senior Environmental Management <br/> Specialist | OIC Section Chief" />
+                <StaffProfile name="JUVINIA P. SERAFIN, MDM" title="Senior Environmental Management <br/> Specialist | OIC Section Chief" img={juvinia_img} />
               </div>
 
               <GradientPill text="NSWMC SECRETARIAT AND EVALUATION" small={true} />
               <div className="w-full space-y-4 md:space-y-6 mb-6 md:mb-8">
-                <StaffProfile name="RACHEL C. PASION" title="Senior Environmental Management <br/> Specialist | Evaluator, Focal - Region 2" />
-                <StaffProfile name="CYNTHIA C. EVARDONE" title="Environmental Management Specialist I <br/> Evaluator, Focal- Region 1, Caraga" />
-                <StaffProfile name="GABRIELLE RAINE G. AGUZAR" title="Environmental Management <br/> Specialist I | SWMD-EPR Support / <br/> 10yr. SWM Plan Evaluator - Region 8" />
-                <StaffProfile name="GIOVANNI R. MIÑAS" title="Project Documentation Officer I <br/> Evaluator, Focal-MIMAROPA, Region 6/ <br/> NSWMC Coordinator" />
-                <StaffProfile name="HOMER A. DELOS SANTOS" title="Project Documentation Officer I <br/> Evaluator, Focal- CAR, Region 8" />
-                <StaffProfile name="ARNIEL M. MALLARI" title="Project Evaluation Officer I <br/> Evaluator, Focal - Region 3, BARMM" />
-                <StaffProfile name="RODETH F. ANTONIO" title="Project Documentation Officer I <br/> Administrative Support" />
-                <StaffProfile name="ENGR. AHMED FADEL A. SAWADJAAN" title="Engineer II" />
+                <StaffProfile name="RACHEL C. PASION" title="Senior Environmental Management <br/> Specialist | Evaluator, Focal - Region 2" img={rachel_img} />
+                <StaffProfile name="CYNTHIA C. EVARDONE" title="Environmental Management Specialist I <br/> Evaluator, Focal- Region 1, Caraga" img={cynthia_img} />
+                <StaffProfile name="GABRIELLE RAINE G. AGUZAR" title="Environmental Management <br/> Specialist I | SWMD-EPR Support / <br/> 10yr. SWM Plan Evaluator - Region 8" img={gabrielle_img} />
+                <StaffProfile name="GIOVANNI R. MIÑAS" title="Project Documentation Officer I <br/> Evaluator, Focal-MIMAROPA, Region 6/ <br/> NSWMC Coordinator" img={giovanni_img} />
+                <StaffProfile name="HOMER A. DELOS SANTOS" title="Project Documentation Officer I <br/> Evaluator, Focal- CAR, Region 8" img={homer_img} />
+                <StaffProfile name="ARNIEL M. MALLARI" title="Project Evaluation Officer I <br/> Evaluator, Focal - Region 3, BARMM" img={arniel_img} />
+                <StaffProfile name="RODETH F. ANTONIO" title="Project Documentation Officer I <br/> Administrative Support" img={rodeth_img} />
+                <StaffProfile name="ENGR. AHMED FADEL A. SAWADJAAN" title="Engineer II" img={sawadjaan_img} />
               </div>
 
               <GradientPill text="TECHNICAL SERVICES AND INSPECTION" small={true} />
               <div className="w-full space-y-4 md:space-y-6">
-                <StaffProfile name="JEPP V. FARRALES, EnP" title="Environmental Management Specialist I <br/> Field Inspection Focal/ Evaluator, Focal <br/> - NCR, CALABARZON, Region 7/ SWMD-<br/>EPR Support" />
-                <StaffProfile name="REY JOHN L. ESQUIVEL" title="Environmental Management Specialist I <br/> Field Inspection Focal/ MRF Manager" />
-                <StaffProfile name="GIO D. CABUNTOCAN" title="Project Development Officer I | Evaluator, <br/> Focal - Region 5, Region 11, Region 12" />
+                <StaffProfile name="JEPP V. FARRALES, EnP" title="Environmental Management Specialist I <br/> Field Inspection Focal/ Evaluator, Focal <br/> - NCR, CALABARZON, Region 7/ SWMD-<br/>EPR Support" img={jepp_img} />
+                <StaffProfile name="REY JOHN L. ESQUIVEL" title="Environmental Management Specialist I <br/> Field Inspection Focal/ MRF Manager" img={rey_img} />
+                <StaffProfile name="GIO D. CABUNTOCAN" title="Project Development Officer I | Evaluator, <br/> Focal - Region 5, Region 11, Region 12" img={gio_img} />
               </div>
             </div>
 
@@ -147,4 +183,4 @@ const OrgChart = () => {
   )
 }
 
-export default OrgChart
+export default OrgChart;
