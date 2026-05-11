@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import Layout from '../components/Layout';
-import { MapPin, Mail, Phone, Clock } from 'lucide-react';
+import MailSVG from '../assets/reach_us.svg';
+import MapPinSVG from '../assets/find_us.svg';
+import ClockSVG from '../assets/office_hours.svg';
+
 
 // Floating Label Input Component
 const FloatingLabelInput = ({ id, label, type = 'text', value, onChange, error = false }) => {
@@ -274,8 +277,8 @@ const Contact = () => {
             {/* Reach Us Card */}
             <div className="bg-gradient-to-br from-[#8cc63f] to-emb-blue rounded-lg md:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 text-white transform transition-all duration-300 hover:shadow-xl hover:scale-105">
               <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                  <Mail className="w-5 sm:w-6 h-5 sm:h-6" />
+                <div className="w-15 sm:w-18 h-15 sm:h-18 flex items-center justify-center">
+                  <img src={MailSVG} alt="Mail" className="w-7.5 sm:w-9 h-7.5 sm:h-9" />
                 </div>
                 <h3 className="text-sm sm:text-lg md:text-xl font-bold font-raleway">Reach Us</h3>
               </div>
@@ -292,8 +295,8 @@ const Contact = () => {
             {/* Find Us Card */}
             <div className="bg-gradient-to-br from-emb-blue to-[#0d47a1] rounded-lg md:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 text-white transform transition-all duration-300 hover:shadow-xl hover:scale-105">
               <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                  <MapPin className="w-5 sm:w-6 h-5 sm:h-6" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                  <img src={MapPinSVG} alt="Map Pin" className="w-5 sm:w-6 h-5 sm:h-6" />
                 </div>
                 <h3 className="text-sm sm:text-lg md:text-xl font-bold font-raleway">Find Us</h3>
               </div>
@@ -308,8 +311,8 @@ const Contact = () => {
             {/* Office Hours Card */}
             <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg md:rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 text-white transform transition-all duration-300 hover:shadow-xl hover:scale-105">
               <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                  <Clock className="w-5 sm:w-6 h-5 sm:h-6" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                  <img src={ClockSVG} alt="Clock" className="w-5 sm:w-6 h-5 sm:h-6" />
                 </div>
                 <h3 className="text-sm sm:text-lg md:text-xl font-bold font-raleway">Office Hours</h3>
               </div>
