@@ -1,140 +1,161 @@
-import React, { useMemo } from 'react';
-import { createPluginRegistration } from '@embedpdf/core';
-import { EmbedPDF } from '@embedpdf/core/react';
-import { usePdfiumEngine } from '@embedpdf/engines/react';
+import React, { useEffect, useRef, useState, useId } from 'react';
 
-// Import the essential plugins
-import { Viewport, ViewportPluginPackage } from '@embedpdf/plugin-viewport/react';
-import { Scroller, ScrollPluginPackage } from '@embedpdf/plugin-scroll/react';
-import {
-  DocumentContent,
-  DocumentManagerPluginPackage,
-} from '@embedpdf/plugin-document-manager/react';
-import { RenderLayer, RenderPluginPackage } from '@embedpdf/plugin-render/react';
-import { ZoomPluginPackage, ZoomMode, useZoom } from '@embedpdf/plugin-zoom/react';
+// Adobe Embed API client ID (provided by NSWMC)
+const ADOBE_CLIENT_ID = '5b4f7d150d9445a9a472ed3adfa9714e';
+const ADOBE_VIEW_SDK_URL = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
 
-// 1. Zoom Controls with Enhanced UI
-const ZoomControls = ({ documentId, title }) => {
-  const { provides: zoomProvides, state: zoomState } = useZoom(documentId);
+/**
+ * Loads the Adobe View SDK script exactly once and resolves when
+ * window.AdobeDC is ready to use.
+ */
+const loadAdobeViewSDK = () => {
+  if (typeof window === 'undefined') return Promise.reject(new Error('SSR'));
 
-  if (!zoomProvides) {
-    return null;
+  if (window.AdobeDC) return Promise.resolve(window.AdobeDC);
+
+  // If the script tag is already on the page, just wait for the ready event.
+  const existing = document.querySelector(`script[src="${ADOBE_VIEW_SDK_URL}"]`);
+  if (!existing) {
+    const script = document.createElement('script');
+    script.src = ADOBE_VIEW_SDK_URL;
+    script.async = true;
+    document.head.appendChild(script);
   }
 
-  return (
-    <div className="bg-gradient-to-r from-[#1a5b8c] to-[#35a4cc] dark:from-slate-800 dark:to-slate-900 text-white px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between shadow-md z-10 relative border-b border-white/10 dark:border-slate-700 transition-colors duration-500 gap-4 sm:gap-0">
-      
-      {/* Left side: Dynamic Title */}
-      <div className="font-raleway font-bold text-sm md:text-base tracking-widest text-white drop-shadow-md text-center sm:text-left w-full sm:w-auto truncate">
-        {title}
-      </div>
+  return new Promise((resolve, reject) => {
+    if (window.AdobeDC) return resolve(window.AdobeDC);
+    const onReady = () => resolve(window.AdobeDC);
+    document.addEventListener('adobe_dc_view_sdk.ready', onReady, { once: true });
 
-      {/* Right side: Zoom Pill */}
-      <div className="font-raleway flex items-center gap-1 md:gap-2 bg-white/20 dark:bg-black/20 backdrop-blur-sm drop-shadow-md rounded-full px-2 md:px-3 py-1.5 w-full sm:w-auto justify-center transition-colors">
-        <button 
-          onClick={zoomProvides.zoomOut} 
-          className="w-8 h-8 flex items-center justify-center hover:bg-white/30 dark:hover:bg-white/10 rounded-full transition-all duration-300 active:scale-90 font-bold text-xl"
-          aria-label="Zoom Out"
-        >
-          −
-        </button>
-        
-        <span className="font-raleway text-xs md:text-sm font-bold w-12 md:w-16 text-center select-none">
-          {Math.round(zoomState.currentZoomLevel * 100)}%
-        </span>
-        
-        <button 
-          onClick={zoomProvides.zoomIn} 
-          className="w-8 h-8 flex items-center justify-center hover:bg-white/30 dark:hover:bg-white/10 rounded-full transition-all duration-300 active:scale-90 font-bold text-xl"
-          aria-label="Zoom In"
-        >
-          +
-        </button>
-
-        {/* Reset Button */}
-        <button 
-          onClick={() => zoomProvides.requestZoom(1.0)} 
-          className="ml-2 px-4 py-1.5 bg-[#8cc63f] hover:bg-[#7ab133] text-white font-merriweather font-bold rounded-full text-[0.65rem] md:text-xs transition-all duration-300 active:scale-95 shadow-sm"
-        >
-          Reset
-        </button>
-      </div>
-    </div>
-  );
+    // Safety timeout so the loading spinner doesn't spin forever.
+    setTimeout(() => {
+      if (window.AdobeDC) resolve(window.AdobeDC);
+      else reject(new Error('Adobe View SDK failed to load'));
+    }, 15000);
+  });
 };
 
-// 2. Main Viewer Component
-export const PDFViewer = ({ fileLink, title = "DOCUMENT VIEWER" }) => {
-  const plugins = useMemo(() => [
-    createPluginRegistration(DocumentManagerPluginPackage, {
-      initialDocuments: [{ url: fileLink }],
-    }),
-    createPluginRegistration(ViewportPluginPackage),
-    createPluginRegistration(ScrollPluginPackage),
-    createPluginRegistration(RenderPluginPackage),
-    createPluginRegistration(ZoomPluginPackage, {
-      defaultZoomLevel: ZoomMode.FitWidth, 
-    }),
-  ], [fileLink]);
+/**
+ * PDFViewer — same public API as the previous embedpdf-based viewer:
+ *   <PDFViewer fileLink={pdfUrl} title="DOCUMENT TITLE" />
+ *
+ * Keeps the original blue gradient header ("blue shape thingy") and the
+ * same outer card sizing (h-[600px] md:h-[800px], rounded-[2rem], shadow-2xl)
+ * so it drops into CitizenCharter.jsx without further changes.
+ */
+export const PDFViewer = ({ fileLink, title = 'DOCUMENT VIEWER' }) => {
+  const containerRef = useRef(null);
+  const reactId = useId();
+  // Adobe expects a stable plain string DOM id (no colons from useId)
+  const divId = `adobe-dc-view-${reactId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const { engine, isLoading } = usePdfiumEngine();
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    setError(null);
 
-  // Polished Loading State
-  if (isLoading || !engine) {
-    return (
-      <div className="flex flex-col items-center justify-center w-full h-[500px] md:h-[700px] bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-gray-200 dark:border-slate-800 shadow-inner transition-colors duration-500">
-        <div className="w-12 h-12 border-4 border-[#1a5b8c]/20 dark:border-blue-400/20 border-t-[#1a5b8c] dark:border-t-blue-400 rounded-full animate-spin"></div>
-        <p className="mt-6 font-raleway font-bold text-[#1a5b8c] dark:text-blue-400 animate-pulse tracking-wide">Loading Document...</p>
-      </div>
-    );
-  }
+    loadAdobeViewSDK()
+      .then((AdobeDC) => {
+        if (cancelled || !containerRef.current) return;
+        // Clear any previous render (e.g. when fileLink changes)
+        containerRef.current.innerHTML = '';
+
+        const adobeDCView = new AdobeDC.View({
+          clientId: ADOBE_CLIENT_ID,
+          divId,
+        });
+
+        const fileName = (() => {
+          try {
+            const segs = String(fileLink).split('/');
+            return decodeURIComponent(segs[segs.length - 1]) || 'document.pdf';
+          } catch {
+            return 'document.pdf';
+          }
+        })();
+
+        adobeDCView.previewFile(
+          {
+            content: { location: { url: fileLink } },
+            metaData: { fileName },
+          },
+          {
+            embedMode: 'SIZED_CONTAINER', // fills our fixed-height card
+            defaultViewMode: 'FIT_WIDTH',
+            showAnnotationTools: false,
+            showLeftHandPanel: false,
+            showDownloadPDF: true,
+            showPrintPDF: true,
+            showFullScreen: true,
+          }
+        );
+
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error('Adobe Embed load error:', err);
+        setError(err.message || 'Failed to load PDF viewer');
+        setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [fileLink, divId]);
 
   return (
-    // Outer Card Wrapper
+    // Outer Card Wrapper — matches the original size & shape
     <div className="w-full h-[600px] md:h-[800px] flex flex-col rounded-[2rem] overflow-hidden shadow-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-950 transition-colors duration-500">
-      <EmbedPDF engine={engine} plugins={plugins}>
-        {({ activeDocumentId }) =>
-          activeDocumentId && (
-            <>
-              {/* 3. Pass the title down to the ZoomControls */}
-              <ZoomControls documentId={activeDocumentId} title={title} />
-              
-              <DocumentContent documentId={activeDocumentId}>
-                {({ isLoaded }) =>
-                  isLoaded && (
-                    <Viewport
-                      documentId={activeDocumentId}
-                      // Blending mandatory inline styles with Tailwind classes for scrollbar styling
-                      className="[&::-webkit-scrollbar]:w-2.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#1a5b8c]/30 dark:[&::-webkit-scrollbar-thumb]:bg-blue-400/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a5b8c]/60 dark:hover:[&::-webkit-scrollbar-thumb]:bg-blue-400/60 transition-colors duration-500"
-                      style={{
-                        flex: 1, 
-                        position: 'relative',
-                        backgroundColor: 'transparent', // Let parent handle background
-                      }}
-                    >
-                      <Scroller
-                        documentId={activeDocumentId}
-                        renderPage={({ width, height, pageIndex }) => (
-                          // Individual Page Container
-                          <div 
-                            style={{ width, height }}
-                            className="mx-auto my-6 md:my-10 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-shadow duration-300"
-                          >
-                            <RenderLayer
-                              documentId={activeDocumentId}
-                              pageIndex={pageIndex}
-                            />
-                          </div>
-                        )}
-                      />
-                    </Viewport>
-                  )
-                }
-              </DocumentContent>
-            </>
-          )
-        }
-      </EmbedPDF>
+      {/* Blue gradient header — preserved from the original viewer */}
+      <div className="bg-gradient-to-r from-[#1a5b8c] to-[#35a4cc] dark:from-slate-800 dark:to-slate-900 text-white px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between shadow-md z-10 relative border-b border-white/10 dark:border-slate-700 transition-colors duration-500 gap-4 sm:gap-0">
+        <div className="font-raleway font-bold text-sm md:text-base tracking-widest text-white drop-shadow-md text-center sm:text-left w-full sm:w-auto truncate">
+          {title}
+        </div>
+        <div className="font-raleway flex items-center gap-2 bg-white/20 dark:bg-black/20 backdrop-blur-sm drop-shadow-md rounded-full px-3 py-1.5">
+          <span className="text-[0.65rem] md:text-xs font-bold tracking-wider uppercase">
+            Powered by Adobe
+          </span>
+        </div>
+      </div>
+
+      {/* Viewer surface */}
+      <div className="relative flex-1 bg-slate-50 dark:bg-slate-900">
+        {isLoading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-900 z-10">
+            <div className="w-12 h-12 border-4 border-[#1a5b8c]/20 dark:border-blue-400/20 border-t-[#1a5b8c] dark:border-t-blue-400 rounded-full animate-spin"></div>
+            <p className="mt-6 font-raleway font-bold text-[#1a5b8c] dark:text-blue-400 animate-pulse tracking-wide">
+              Loading Document...
+            </p>
+          </div>
+        )}
+
+        {error && !isLoading && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center z-10">
+            <p className="font-raleway font-bold text-red-600 dark:text-red-400">
+              Could not load the PDF.
+            </p>
+            <p className="mt-2 font-merriweather text-xs text-gray-600 dark:text-gray-400">
+              {error}
+            </p>
+            <a
+              href={fileLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 px-4 py-2 bg-[#1a5b8c] hover:bg-[#15486f] text-white font-raleway font-bold rounded-full text-xs transition-colors"
+            >
+              Open PDF in new tab
+            </a>
+          </div>
+        )}
+
+        {/* Adobe injects the viewer iframe into this div */}
+        <div ref={containerRef} id={divId} className="w-full h-full" />
+      </div>
     </div>
   );
 };
+
+export default PDFViewer;
