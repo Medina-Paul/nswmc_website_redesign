@@ -1,63 +1,130 @@
 // cSpell:disable
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
-import hero_icon_1 from '../assets/hero_icon_1.png';
 import transparent_seal from '../assets/transparency_seal.svg';
 import foi_seal from '../assets/foi.svg';
-import about_us_bg from '../assets/about_us_bg.png';
+import { Search, ArrowDown } from 'lucide-react';
+import hero_banner_2 from '../assets/hero_banner_2.svg';
 import guide_icon_1 from '../assets/guide_icon_1.png';
 import guide_icon_2 from '../assets/guide_icon_2.png';
 import guide_icon_3 from '../assets/guide_icon_3.png';
-import { Search } from "lucide-react";
+import guide_icon_4 from '../assets/guide_icon_4.png';
+import guide_icon_5 from '../assets/guide_icon_5.png';
+import guide_icon_6 from '../assets/guide_icon_6.png';
 
+const HERO_BG = "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=2000&auto=format&fit=crop";
 
 const Home = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const aboutRef = useRef(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formattedTime = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Manila',
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(currentTime);
+
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Manila',
+    weekday: 'long',
+    month: 'long',
+    day: '2-digit',
+    year: 'numeric',
+  }).format(currentTime);
+
   const dashboardCards = [
-    { title: 'SWM Data Dashboards', description: 'The dashboard provides real-time waste collection updates, monitors major village bins, and supports composting decisions....', link: '/dashboards/10-year-plan' },  // ideally it should have main page but for now i will just link to the 10 year plan dashboard
-    { title: 'NSWMC Resolutions', description: 'NSWMC resolutions provide policies and guidelines that strengthen waste management practices and support sustainable environmental programs.', link: 'https://drive.google.com/drive/folders/1T_HAuUuTbOOplqcPoxx5Ec-53ul13d_j' },
-    { title: 'EPR Registry', description: "The Extended Producer Responsibility Registry tracks and monitors producers' compliance with waste recovery and sustainability obligations.", link: 'https://epr.emb.gov.ph/' },
-    { title: 'Junk Shops and Recycling Facilities', description: 'Directory and information hub for recycling centers and junk shops.', link: 'https://drive.google.com/file/d/1vn3dvEkg9f8RVKPUqOBCimQCe8vMgZ98' },
-    { title: 'SWM Facility Designs', description: 'Standardized plans and layouts for solid waste management facilities.', link: 'https://drive.google.com/drive/folders/1nckZ0KgsjI7wu9M4YKQd9taiey1ODk7x' },
-    { title: 'National Plan of Action for Marine Litter', description: 'Strategies to reduce and manage marine litter nationwide.', link: 'https://drive.google.com/drive/folders/1Nc6hyMx0DJuJKI75HnFlbcyanoUqwqoc' },
-    { title: 'Non-Environmentally Acceptable Products', description: 'List and guidelines on products harmful to the environment.', link: 'https://drive.google.com/drive/folders/1GBSyu_WHXGoZ1NWB8lBLuv9baENUPNtH' },
-    { title: 'Waste Analysis Characterization Study Manual', description: 'Reference guide for conducting waste analysis studies.', link: 'https://drive.google.com/drive/folders/1SsdmPRoDOBFqVh81xsMA78Bs2aJ9S5G-' },
-    { title: 'World Bank Group Plastic Roadmap', description: 'Framework for reducing plastic waste and improving circularity.', link: 'https://drive.google.com/drive/folders/1GIlsPnQGbb914aUnhDBrnah2O7sWC6QA' },
-    { title: 'UN-Habitat Marine Litter Learning Kit', description: 'Educational resources on preventing marine litter.', link: 'https://unhabitat.org.ph/wp-content/uploads/2023/07/HOCCI_Marine-Litter-Learning-Kit_with-DENR_digital.pdf' },
-    { title: 'UNIDO Open Burning Project PH', description: 'Initiative addressing the impacts of open waste burning in the Philippines.', link: 'https://drive.google.com/drive/folders/15LvvNKHMMzDPafgk91fqAecvkFukHVWU' },
-    { title: 'JICA TCP Outputs', description: 'Reports and deliverables from JICA technical cooperation projects.', link: 'https://drive.google.com/drive/folders/1TryMCsd8vbtohTYxwCv86WJbrkQVg5Wr' },
-    { title: 'SMEC Waste-to-Energy Study', description: 'Research on converting waste into usable energy solutions.', link: 'https://drive.google.com/drive/folders/1R2xFrdwoqY9yn1QXaIOocKXGsJql2EE0' },
-    { title: 'Nestle Student Modules', description: 'Learning materials on sustainability and responsible waste practices.', link: 'https://drive.google.com/drive/folders/1z5L_1ejrgNw8KzfZ-spWyVBY1YTllX9U' },
-    { title: 'LGU Good Practices', description: 'Collection of successful waste management initiatives by local governments.', link: 'https://drive.google.com/drive/folders/1rE2VulXT9_GGsEBnlUyj_AGNOKCi-lCH' },
-    { title: 'Climate Change Reports', description: 'Collection of national and global reports focused on climate change.', link: 'https://drive.google.com/drive/folders/1aBF3E3_Jtn-xmW-UHQDwzUq7OLAtYnUD' }
+    { title: 'SWM Data Dashboards', description: 'The dashboard provides real-time waste collection updates, monitors major village bins, and supports composting decisions....', link: '/dashboards/10-year-plan' },
+    { title: 'NSWMC Resolutions', description: 'NSWMC resolutions provide policies and guidelines that strengthen waste management practices and support sustainable environmental programs.', link: '#' },
+    { title: 'EPR Registry', description: "The Extended Producer Responsibility Registry tracks and monitors producers' compliance with waste recovery and sustainability obligations.", link: '#' },
+    { title: 'Junk Shops and Recycling Facilities', description: 'Directory and information hub for recycling centers and junk shops.', link: '#' },
+    { title: 'SWM Facility Designs', description: 'Standardized plans and layouts for solid waste management facilities.', link: '#' },
+    { title: 'National Plan of Action for Marine Litter', description: 'Strategies to reduce and manage marine litter nationwide.', link: '#' },
+    { title: 'Non-Environmentally Acceptable Products', description: 'List and guidelines on products harmful to the environment.', link: '#' },
+    { title: 'Waste Analysis Characterization Study Manual', description: 'Reference guide for conducting waste analysis studies.', link: '#' },
+    { title: 'World Bank Group Plastic Roadmap', description: 'Framework for reducing plastic waste and improving circularity.', link: '#' },
+    { title: 'UN-Habitat Marine Litter Learning Kit', description: 'Educational resources on preventing marine litter.', link: '#' }
   ];
 
   const newsItems = [
-    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=150&h=150&fit=crop' },
-    { title: 'DENR-EMB Continues Air Quality Monitoring Following Navotas Landfill Fire', date: '29 April 2026', img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=150&h=150&fit=crop' },
-    { title: 'NSWMC Approves 10-Year Solid Waste Plans for 5 LGUs', date: '15 April 2026', img: 'https://images.unsplash.com/photo-1528323273322-d81458248d40?w=150&h=150&fit=crop' },
+    { title: 'DENR-EMB Continues Air Quality Monitoring Following Navotas Landfill Fire', date: '29 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
   ];
 
   const projectItems = [
-    { title: 'DENR-EMB Permitting on Wheels Brings Easier Environmental Compliance Services', date: '07 April 2026', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=150&h=150&fit=crop' },
-    { title: 'EMB and Japanese Experts Strengthen Monitoring of Persistent Organic Pollutants in the Philippines', date: '24 March 2026', img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&h=150&fit=crop' },
-    { title: 'Coastal Cleanup Drive 2026 Launched in Manila Bay', date: '10 March 2026', img: 'https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=150&h=150&fit=crop' },
+    { title: 'DENR-EMB Continues Air Quality Monitoring Following Navotas Landfill Fire', date: '29 April 2026', type: 'PROJECTS', img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'PROJECTS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'PROJECTS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
+    { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'PROJECTS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
   ];
 
   const guideItems = [
-    { type: 'RESIDUALS FOR DISPOSAL', desc: 'This disposal cover non-recyclable waste intended for landfilling items like cigarette butts, tissue, diapers, and wrappers.', color: 'from-gray-500', text: 'text-gray-800 dark:text-gray-200', icon: guide_icon_1 },
-    { type: 'BIODEGRADABLE', desc: 'This category primarily includes kitchen waste, garden waste, agricultural waste, and livestock waste. By identifying these specific organic streams, the guide facilitates efficient waste diversion.', color: 'from-[#60b613]', text: 'text-[#467405] dark:text-[#8ae434]', icon: guide_icon_2 },
-    { type: 'RECYCLABLE', desc: 'The Recyclables category identifies materials to be recovered including paper, cardboard, plastics, resins, glass bottles, and scrap metals like aluminum and tin cans.', color: 'from-[#35a4cc]', text: 'text-[#1a5b8c] dark:text-[#6ecdf2]', icon: guide_icon_3 },
+    {
+      type: 'BIODEGRADABLE',
+      desc: 'This category primarily includes kitchen waste, garden waste, agricultural waste, and livestock waste. By identifying these specific organic streams, the guide facilitates efficient waste diversion and ensures that biodegradable matter is properly managed alongside recyclables, residuals, and special waste.',
+      text: 'text-[#2e6b12]',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#6ca924_0%,#dcf589_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#6ca924_0%,#dcf589_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#3b5914] to-[#6ca924]'
+    },
+    {
+      type: 'RECYCLABLE',
+      desc: 'The Recyclables category identifies materials for recovery, including paper, various plastic resins, glass bottles or cullets, and metals like aluminum and copper. These items are categorized to help identify salable materials that can be diverted from landfills and reintegrated into the circular economy.',
+      text: 'text-[#1b6b98]',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#1b6b98_0%,#85bfe0_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#1b6b98_0%,#85bfe0_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#0c3954] to-[#1b6b98]'
+    },
+    {
+      type: 'RESIDUALS FOR POTENTIAL RECYCLING',
+      desc: 'Residuals with Potential for Recycling consist of items not typically salable in local junk shops, such as tetra packs, sachets, and rubber mats, which can still be processed through treatment technologies.',
+      text: 'text-black',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#4a4a4a_0%,#b3b3b3_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#4a4a4a_0%,#b3b3b3_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#242424] to-[#4a4a4a]'
+    },
+    {
+      type: 'RESIDUALS FOR DISPOSAL',
+      desc: 'Residuals for Disposal cover non-recoverable waste intended for landfills, including items like cigarette butts, soiled tissue, diapers, and sanitary napkins.',
+      text: 'text-black',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#1a1a1a_0%,#808080_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#1a1a1a_0%,#808080_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#000000] to-[#1a1a1a]'
+    },
+    {
+      type: 'HAZARDOUS WASTE',
+      desc: 'Hazardous Waste encompasses toxic materials that require special handling and permits, including paints, used oils, dry cell batteries, cleaning chemicals, and consumer electronics.',
+      text: 'text-[#d90404]',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#8a0d0d_0%,#f58787_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#8a0d0d_0%,#f58787_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#4a0606] to-[#8a0d0d]'
+    },
+    {
+      type: 'HEALTHCARE WASTE FROM HOSPITAL',
+      desc: 'Healthcare Waste from Hospitals involves clinical materials like expired medicines, syringes, and surgical gloves, which must be strictly managed and properly disposed of according to Department of Health guidelines.',
+      text: 'text-[#d1a704]',
+      bgOpen: 'lg:bg-[linear-gradient(to_right,#c49c02_0%,#fae17a_35%,#ffffff_45%)]',
+      bgOpenMobile: 'bg-[linear-gradient(to_bottom,#c49c02_0%,#fae17a_40%,#ffffff_60%)]',
+      bgClose: 'bg-gradient-to-br from-[#7a6000] to-[#c49c02]'
+    }
   ];
 
-  const [activeNews, setActiveNews] = useState(0);
-  const [activeProject, setActiveProject] = useState(0);
+  const icons = [guide_icon_1, guide_icon_2, guide_icon_3, guide_icon_4, guide_icon_5, guide_icon_6];
+
   const [activeGuide, setActiveGuide] = useState(0);
   const [archiveQuery, setArchiveQuery] = useState('');
 
   const filteredDashboardCards = useMemo(() => {
     const q = archiveQuery.trim().toLowerCase();
     if (!q) return dashboardCards;
-    // split into tokens so "marine plastic" matches cards containing both words
     const tokens = q.split(/\s+/);
     return dashboardCards.filter((card) => {
       const haystack = `${card.title} ${card.description}`.toLowerCase();
@@ -65,302 +132,363 @@ const Home = () => {
     });
   }, [archiveQuery]);
 
-  // Helper functions for infinite looping navigation
-  const nextSlide = (setter, length) => setter((prev) => (prev + 1) % length);
-  const prevSlide = (setter, length) => setter((prev) => (prev - 1 + length) % length);
-
   return (
     <Layout>
-      <div className="flex flex-col space-y-5 w-full relative z-0 transition-colors duration-500">
+      <div className="flex flex-col w-full justify-center z-0 bg-white dark:bg-gray-950 shadow-lg font-raleway">
 
-        {/* 1. HERO SECTION */}
-        <section
-          className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] overflow-hidden min-h-[500px] sm:min-h-[600px] lg:min-h-screen flex items-center shadow-sm bg-[#f4fbf9] dark:bg-slate-950 transition-colors duration-500"
-        >
-          {/* Background Gradients Fix */}
-          <div className="absolute left-[-10%] top-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#52BAFF]/50 dark:bg-[#1e3a8a]/40 rounded-full blur-[120px] pointer-events-none transition-colors duration-500"></div>
-          <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-[#B4CE1F]/40 dark:bg-[#064e3b]/40 rounded-full blur-[120px] pointer-events-none transition-colors duration-500"></div>
+        {/* ========================================= */}
+        {/* 1. HERO BANNER                            */}
+        {/* ========================================= */}
+        <div className="relative h-[450px] font-raleway md:h-[500px] lg:h-[600px] 2xl:h-[850px] mt-6 mx-5 md:mx-10 lg:mx-6 mb-12 rounded-tl-[2.5rem] md:rounded-tl-[3rem] rounded-br-[2.5rem] md:rounded-br-[3rem] overflow-hidden">
+          <img
+            src={hero_banner_2}
+            alt="Solid Waste Management Truck"
+            className="absolute inset-0 w-screen h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent pointer-events-none"></div>
 
-          <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-6 md:px-12 lg:px-20 flex flex-col-reverse md:flex-row items-center justify-between gap-6 sm:gap-12 py-10 sm:py-16 relative z-10">
-            <div className="w-full md:w-1/2 z-10 space-y-4 sm:space-y-6 text-center md:text-left mt-6 sm:mt-10 md:mt-0">
-              <h1 className="font-raleway text-2xl sm:text-4xl md:text-6xl lg:text-[4.5rem] text-emb-green dark:text-green-400 font-black leading-[1.05] drop-shadow-md/30 opacity-80 dark:opacity-90 transition-all">
-                Solid Waste <br />
-                Management <br />
-                Division
-              </h1>
-              <p className="font-merriweather text-[#2e5e2e] dark:text-green-100 text-xs sm:text-base md:text-lg lg:text-xl leading-relaxed mx-auto md:mx-0 max-w-2xl transition-colors">
-                Empowering communities and institutions to achieve sustainable and effective solid waste management for a cleaner, healthier Philippines.
+          <div className="absolute top-0 right-0 bg-white dark:bg-gray-950 p-2 md:p-4 rounded-bl-[1.5rem] md:rounded-bl-[2rem] transition-colors duration-500 z-20">
+            <svg className="absolute top-0 -left-8 w-8 h-8 text-white dark:text-gray-950 transition-colors duration-500 pointer-events-none translate-x-[1px]" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M 100 0 L 100 100 A 100 100 0 0 0 0 0 Z" />
+            </svg>
+            <svg className="absolute -bottom-8 right-0 w-7 h-9 text-white dark:text-gray-950 transition-colors duration-500 pointer-events-none -translate-y-[1px]" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M 100 0 L 100 100 A 100 100 0 0 0 0 0 Z" />
+            </svg>
+            <div className="border border-green-600 rounded-full flex items-center justify-center px-6 py-2 md:py-3 shadow-sm transition-colors duration-500 shrink-0">
+              <p className="font-medium text-[0.6rem] text-xs md:text-sm transition-colors duration-500 tracking-wide">
+                <span className="mr-2">PHILIPPINES STANDARD TIME:</span>
+                <span className="inline-block tabular-nums min-w-[100px] md:min-w-[200px] text-left">
+                  {formattedTime} , {formattedDate}
+                </span>
               </p>
-              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-4 pt-2 sm:pt-4">
-                <button className="font-raleway bg-[#35a4cc] dark:bg-sky-600 text-white px-6 sm:px-8 py-2 sm:py-2.5 rounded-full text-xs sm:text-lg shadow-md hover:bg-sky-500 dark:hover:bg-sky-500 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 border border-[#2b8fb3] dark:border-sky-500">
-                  Get Started
-                </button>
-                <div className="relative w-48 sm:w-72 md:w-80 group">
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    className="font-raleway w-full bg-[#467405] dark:bg-green-700 text-white placeholder-white/80 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 shadow-md text-xs sm:text-lg transition-all duration-300"
-                  />
-                  <Search className="w-4 sm:w-5 h-4 sm:h-5 absolute right-3 sm:right-5 top-2 sm:top-3 text-white/90 stroke-2 group-hover:scale-110 transition-transform" />
+            </div>
+          </div>
+
+          <div className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 pointer-events-none z-10">
+            <h1 className="text-white font-bold text-4xl text-5xl md:text-[5rem] lg:text-[6rem] uppercase leading-[0.9] tracking-tight drop-shadow-md">
+              Solid Waste<br />
+              Management<br />
+              Division
+            </h1>
+            <p className="mt-4 md:mt-0 md:absolute md:bottom-[3rem] md:left-[16rem] lg:left-[17.5rem] text-white/95 text-base md:text-[1rem] lg:text-[1.15rem] font-serif italic max-w-xs sm:max-w-md md:max-w-2xl drop-shadow-lg pointer-events-auto">
+              Empowering communities and institutions to achieve sustainable and effective solid waste management for a cleaner, healthier Philippines.
+            </p>
+          </div>
+
+          <div className="absolute bottom-0 left-0 bg-white dark:bg-gray-950 p-2 md:p-4 rounded-tr-[1.5rem] md:rounded-tr-[2rem] transition-colors duration-500 z-20">
+            <svg className="absolute -top-8 left-0 w-8 h-8 text-white dark:text-gray-950 transition-colors duration-500 pointer-events-none translate-y-[1px]" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M 0 100 L 100 100 A 100 100 0 0 1 0 0 Z" />
+            </svg>
+            <svg className="absolute bottom-[-1px] -right-8 w-8 h-8 text-white dark:text-gray-950 transition-colors duration-500 pointer-events-none -translate-x-[1px]" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M 0 100 L 100 100 A 100 100 0 0 1 0 0 Z" />
+            </svg>
+            <button
+              onClick={() => {
+                if (aboutRef.current) {
+                  aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="bg-[#416B19] hover:bg-[#325213] hover:cursor-pointer text-white px-6 py-3.5 md:px-9 md:py-5 rounded-[1rem] md:rounded-[1.5rem] font-bold flex items-center justify-center gap-2 transition-all text-sm md:text-lg shadow-md pointer-events-auto w-full h-full"
+            >
+              Get Started
+              <ArrowDown className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* ========================================= */}
+        {/* 2. RIBBON BAR                             */}
+        {/* ========================================= */}
+        <section className="w-full flex justify-around md:gap-8 py-6 bg-white dark:bg-gray-950 text-[#365E02] dark:text-blue-400 font-bold text-[0.8rem] md:text-[1.2rem] lg:text-[1.5rem] transition-colors duration-500">
+          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+            GOVPH
+          </div>
+          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+            <img className='w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10' src={foi_seal} alt="FOI" /> FREEDOM OF INFORMATION
+          </div>
+          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+            <img className='w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10' src={transparent_seal} alt="Transparency" /> TRANSPARENCY SEAL
+          </div>
+        </section>
+
+        {/* ========================================= */}
+        {/* 3. ABOUT SWMD SECTION                     */}
+        {/* ========================================= */}
+        <section className="w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20">
+          <div ref={aboutRef} id='about_swmd' className="grid grid-cols-1 lg:grid-cols-[2fr_500px] gap-12 md:gap-20 items-center w-full">
+            <div>
+              <h2 className="font-raleway text-5xl md:text-6xl lg:text-[5rem] font-bold text-[#04578F] dark:text-blue-400 mb-6 tracking-tight">
+                ABOUT SWMD
+              </h2>
+              <p className="text-[#04578F] dark:text-gray-300 text-sm md:text-[1.3rem] 2xl:text-[1.8rem] leading-relaxed text-justify font-medium">
+                The National Solid Waste Management Commission (NSWMC) is the lead body responsible for formulating policies, strategies, and programs to ensure the effective implementation of ecological solid waste management in the Philippines. In partnership with national agencies, local government units, and stakeholders, the Commission works to promote sustainable practices, reduce environmental impact, and safeguard public health. Guided by the principles of environmental stewardship and shared responsibility, NSWMC drives nationwide efforts toward a cleaner, healthier, and more sustainable future for every Filipino.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: 'Solid Waste Management Division', link: '/about' },
+                { title: 'Organizational Chart', link: '/about/org-chart' },
+                { title: 'NSWMC Commissioners', link: '/about/commissioners' },
+                { title: 'Citizen Charter\'s On SWM', link: '/about/citizens-charter' },
+              ].map((item, i) => (
+                <a key={i} href={item.link} className="bg-white dark:bg-gray-800 border-2 border-[#04578F]/20 hover:border-[#04578F] rounded-2xl p-6 flex flex-col justify-between md:min-h-[200px] lg:min-h-[250px] group transition-all shadow-sm hover:shadow-md">
+                  <h3 className="font-bold text-[#04578F] dark:text-blue-300 text-[1rem] md:text-[1.5rem] leading-tight group-hover:scale-[1.02] transition-transform">{item.title}</h3>
+                  <div className="flex justify-between items-center text-[#04578F]/70 text-xs font-semibold mt-4">
+                    <span className="group-hover:text-[#04578F]">View page</span>
+                    <span className="text-lg group-hover:translate-x-1 transition-transform">›</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================= */}
+        {/* 4. ARCHIVES DASHBOARD                     */}
+        {/* ========================================= */}
+        <section className="w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20">
+          <div className="w-full">
+            {/* Header Section */}
+            <div className="mb-12 md:mb-14">
+              <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-12 mb-8">
+                <div className="flex-1">
+                  <h2 className="text-[#04578F] dark:text-blue-300 text-5xl md:text-6xl lg:text-[5rem] font-black uppercase tracking-tight leading-[0.9] mb-4">
+                    Archives <br /> Dashboard
+                  </h2>
+                  <p className="text-[#04578F] dark:text-gray-300 text-sm md:text-[1.3rem] 2xl:text-[1.8rem] max-w-2xl leading-relaxed font-medium">
+                    Explore tools, data, and resources designed to support better waste management. From dashboards and policy guides to facility designs and best practices, discover solutions that drive progress toward sustainable waste management.
+                  </p>
                 </div>
               </div>
+
+              {/* Search Bar */}
+              <div className="relative w-full sm:w-96 ml-auto">
+                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-[#0B4C8C] dark:text-blue-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search resources..."
+                  value={archiveQuery}
+                  onChange={(e) => setArchiveQuery(e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border-2 border-[#0B4C8C]/20 dark:border-blue-500/20 text-[#0B4C8C] dark:text-white placeholder-[#0B4C8C]/50 dark:placeholder-gray-400 pl-16 pr-6 py-3.5 md:py-4 rounded-full outline-none focus:border-[#0B4C8C] dark:focus:border-blue-400 focus:ring-2 focus:ring-[#0B4C8C]/10 dark:focus:ring-blue-400/10 transition-all text-sm md:text-base shadow-sm hover:shadow-md"
+                />
+              </div>
             </div>
-            <div className="w-full md:w-1/2 flex justify-center md:justify-end items-center relative group">
-              <img src={hero_icon_1} alt="SWMD Collage" className="w-full max-w-[250px] sm:max-w-[350px] md:max-w-[500px] lg:max-w-[750px] xl:max-w-[900px] h-auto object-contain drop-shadow-2xl group-hover:scale-[1.02] transition-transform duration-700 ease-out" />
-            </div>
+
+            {/* Cards Grid */}
+            {filteredDashboardCards.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="mb-4 w-16 h-16 bg-[#04578F] dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                  <Search className="w-8 h-8 text-white dark:text-blue-400 opacity-50" />
+                </div>
+                <h3 className="text-2xl md:text-3xl font-black text-[#0B4C8C] dark:text-blue-300 mb-2">No Results Found</h3>
+                <p className="text-[#0B4C8C]/70 dark:text-gray-400 max-w-md text-sm md:text-base">
+                  Nothing matches <span className="font-bold">"{archiveQuery}"</span>. Try adjusting your search terms.
+                </p>
+              </div>
+            ) : (
+              <div className="bg-[#04578F] dark:bg-blue-900 rounded-3xl p-8 md:p-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-6">
+                  {filteredDashboardCards.map((item, i) => (
+                    <a
+                      key={i}
+                      href="#"
+                      className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-7 overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col"
+                    >
+                      {/* Background gradient overlay on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#0B4C8C]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                      {/* Content */}
+                      <div className="flex-1 relative z-10 mb-4">
+                        <h3 className="font-black text-[#0B4C8C] dark:text-blue-300 text-base md:text-lg leading-tight mb-3 group-hover:text-[#0B4C8C] transition-colors">
+                          {item.title}
+                        </h3>
+                        <p className="text-[#0B4C8C]/75 dark:text-gray-400 text-xs md:text-sm line-clamp-4 leading-relaxed group-hover:text-[#0B4C8C]/85 transition-colors">
+                          {item.description}
+                        </p>
+                      </div>
+
+                      {/* Footer button */}
+                      <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-[#0B4C8C] dark:text-blue-400 group-hover:gap-3 transition-all duration-300 relative z-10 mt-auto">
+                        <span>Learn More</span>
+                        <span className="text-base group-hover:translate-x-1 transition-transform duration-300">→</span>
+                      </div>
+
+                      {/* Border animation */}
+                      <div className="absolute inset-0 rounded-2xl border-2 border-[#0B4C8C]/0 group-hover:border-[#0B4C8C]/20 transition-colors duration-300 pointer-events-none" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
-        {/* 2. RIBBON BAR */}
-        <section
-          className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] font-raleway flex flex-wrap justify-center gap-12 border-y-2 border-gray-100 dark:border-slate-800 py-4 text-emb-blue dark:text-blue-200 font-bold text-sm text-center bg-gradient-to-tr from-blue-50 via-blue-50 to-blue-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-500"
-        >
-          <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"> <span>GOV PH</span></div>
-          <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"><img className='w-10 h-10' src={foi_seal} alt="FOI Seal" /> <span>FREEDOM OF INFORMATION</span></div>
-          <div className="flex items-center space-x-2 hover:opacity-80 cursor-pointer transition-opacity"><img className='w-10 h-10' src={transparent_seal} alt="Transparency Seal" /> <span>TRANSPARENCY SEAL</span></div>
-        </section>
-
-        {/* 3. ABOUT SWMD SECTION */}
-        <section
-          className="w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw] font-raleway text-center py-16 min-h-[600px] lg:min-h-screen flex flex-col justify-center items-center overflow-hidden"
-        >
-          <div className="absolute inset-0 z-0 bg-cover bg-center opacity-100 dark:opacity-30 transition-opacity duration-500" style={{ backgroundImage: `url(${about_us_bg})` }}></div>
-          <div className="absolute inset-0 z-0 bg-transparent dark:bg-slate-900/80"></div>
-
-          <div className="max-w-7xl mx-auto px-4 md:px-8 space-y-8 w-full relative z-10">
-            <h2 className="text-6xl md:text-7xl font-light text-emb-blue dark:text-blue-300 drop-shadow-sm transition-colors">
-              ABOUT <span className="font-bold text-emb-blue dark:text-blue-400">SWMD</span>
-            </h2>
-            <p className="text-emb-blue dark:text-slate-300 font-medium leading-relaxed max-w-4xl mx-auto transition-colors">
-              The National Solid Waste Management Commission (NSWMC) is the lead body responsible for formulating policies, strategies, and programs to ensure the effective implementation of ecological solid waste management in the Philippines. In partnership with national agencies, local government units, and stakeholders, the Commission works to promote sustainable practices, reduce environmental impact, and safeguard public health. Guided by the principles of environmental stewardship and shared responsibility, NSWMC drives nationwide efforts toward a cleaner, healthier, and more sustainable future for every Filipino.
-            </p>
-            <button className="border-2 border-emb-blue dark:border-blue-400 text-emb-blue dark:text-blue-400 px-8 py-3 rounded-xl font-bold hover:bg-emb-blue hover:text-white dark:hover:bg-blue-400 dark:hover:text-slate-900 active:scale-95 transition-all duration-300 shadow-md bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm">
-              Learn More!
-            </button>
-
-            {/* 4 Cards Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 opacity-95">
-              {[
-                { title: 'Solid Waste Management Division', color: 'bg-[#315502] dark:bg-green-900', link: '/about' },
-                { title: 'Organizational Chart', color: 'bg-[#4B8004] dark:bg-green-800', link: '/about/org-chart' },
-                { title: 'NSWMC Commissioners', color: 'bg-[#74C609] dark:bg-green-700', link: '/about/commissioners' },
-                { title: 'Citizen Charter on SWM', color: 'bg-[#BFDF03] dark:bg-lime-600', link: '/about/citizens-charter' },
-              ].map((item, i) => (
-                <a key={i} href={item.link} className={`${item.color} shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer px-5 py-8 rounded-2xl flex flex-col justify-between text-left h-48 border border-white/20 dark:border-white/10 group`}>
-                  <h3 className="font-bold text-white text-lg leading-tight group-hover:scale-[1.02] transition-transform">{item.title}</h3>
-                  <div className="flex justify-between items-center text-white/90 text-sm font-semibold">
-                    <span className="group-hover:text-white transition-colors">View page</span>
-                    <span className="text-2xl group-hover:translate-x-1 transition-transform">›</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 4. ARCHIVES DASHBOARD */}
-        <section className="font-raleway bg-blue-50 dark:bg-slate-900 rounded-3xl p-4 sm:p-8 md:p-12 text-center shadow-inner mt-8 border border-transparent dark:border-slate-800 transition-colors duration-500">
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-emb-green-light dark:text-green-400 mb-3 sm:mb-4 transition-colors">ARCHIVES <br /><span className="text-emb-green dark:text-green-500 font-light">DASHBOARD</span></h2>
-          <p className="text-emb-blue dark:text-slate-400 mb-6 sm:mb-8 max-w-3xl mx-auto text-xs sm:text-sm transition-colors">Explore tools, data, and resources designed to support better waste management. From dashboards and policy guides to facility designs and best practices, this section helps you discover solutions, track progress, and take action toward a cleaner, more sustainable future.</p>
-
-          <div className="relative w-full max-w-3xl mx-auto group my-4 sm:my-7">
-            <input
-              type="text"
-              placeholder="Search"
-              value={archiveQuery}
-              onChange={(e) => setArchiveQuery(e.target.value)}
-              className="font-raleway w-full bg-emb-blue dark:bg-slate-800 opacity-50 text-white placeholder-white/80 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full focus:outline-none focus:opacity-80 focus:ring-2 focus:ring-blue-400 shadow-md transition-all duration-300 text-xs sm:text-base"
-            />
-            <Search className="w-4 sm:w-5 h-4 sm:h-5 absolute right-3 sm:right-5 top-2.5 sm:top-3 text-white/90 stroke-2 group-hover:scale-110 transition-transform" />
-          </div>
-
-          {filteredDashboardCards.length === 0 ? (
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 py-8">
-              No dashboards match &ldquo;{archiveQuery}&rdquo;.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-              {filteredDashboardCards.map((item, i) => (
-                <a key={i} href={item.link} className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100 dark:border-slate-700 flex flex-col justify-between min-h-[240px] sm:h-56 text-left hover:-translate-y-2 hover:shadow-xl hover:border-emb-green dark:hover:border-green-500 transition-all duration-300 group">
-                  <div>
-                    <h3 className="font-bold text-emb-blue dark:text-blue-300 text-xs sm:text-md leading-tight transition-colors">{item.title}</h3>
-                    <p className="text-[0.65rem] sm:text-xs text-gray-500 dark:text-gray-400 mt-2 sm:mt-3 line-clamp-4 leading-relaxed transition-colors">{item.description}</p>
-                  </div>
-                  <div className="mt-auto pt-3 sm:pt-4 text-xs text-emb-blue dark:text-blue-400 font-bold flex items-center group-hover:text-emb-green dark:group-hover:text-green-400 transition-colors">
-                    View Page <span className="ml-1 group-hover:translate-x-2 transition-transform duration-300">&rarr;</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* FEATURED CONTENTS SECTION */}
-        <section className="w-full py-8 sm:py-12 max-w-[1600px] mx-auto overflow-hidden px-2 sm:px-4">
-          <h2 className="font-raleway text-2xl sm:text-4xl md:text-5xl mb-8 sm:mb-12 px-2 sm:px-4 md:px-8">
-            <span className="font-black text-[#1a5b8c] dark:text-blue-400 transition-colors">FEATURED</span> <span className="font-light text-[#60b613] dark:text-green-400 transition-colors">CONTENTS</span>
+        {/* ========================================= */}
+        {/* 5. FEATURED CONTENTS                      */}
+        {/* ========================================= */}
+        <section className="w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20 font-merriweather">
+          <h2 className="text-4xl md:text-5xl mb-12">
+            <span className="font-black font-raleway text-[#04578F] dark:text-blue-400">FEATURED</span> <span className="font-black font-raleway text-[#365E02] dark:text-green-400">CONTENTS</span>
           </h2>
 
-          {/* NEWS BLOCK */}
-          <div className="mb-12 sm:mb-16 relative">
-            <h3 className="font-raleway font-bold text-[#1a5b8c] dark:text-blue-300 text-sm sm:text-xl mb-6 sm:mb-8 px-2 sm:px-4 md:px-8 text-center md:text-left transition-colors">NEWS</h3>
-
-            <div className="relative w-full h-[120px] sm:h-[150px] flex justify-center items-center overflow-visible">
-              {newsItems.map((item, idx) => {
-                const diff = (idx - activeNews + newsItems.length) % newsItems.length;
-                let positionClasses = "opacity-0 scale-75 z-0 pointer-events-none";
-
-                if (diff === 0) {
-                  positionClasses = "translate-x-0 scale-100 z-30 opacity-100 shadow-2xl";
-                } else if (diff === 1) {
-                  positionClasses = "translate-x-[95%] sm:translate-x-[105%] md:translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-80";
-                } else if (diff === newsItems.length - 1) {
-                  positionClasses = "-translate-x-[95%] sm:-translate-x-[105%] md:-translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-80";
-                }
-
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => setActiveNews(idx)}
-                    className={`absolute transition-all duration-700 ease-in-out cursor-pointer w-[260px] sm:w-[340px] md:w-[400px] flex items-center bg-white dark:bg-slate-800 border border-[#b6def4] dark:border-slate-700 rounded-lg sm:rounded-2xl p-1.5 sm:p-2 ${positionClasses}`}
-                  >
-                    <div className="w-20 sm:w-32 h-16 sm:h-24 rounded-md sm:rounded-xl overflow-hidden shrink-0 bg-gray-100 dark:bg-slate-700">
-                      <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="pl-2 sm:pl-4 pr-1 sm:pr-2">
-                      <h4 className="font-bold text-[#1a5b8c] dark:text-blue-300 text-[0.6rem] sm:text-sm leading-tight line-clamp-2 sm:line-clamp-3 mb-1 transition-colors">{item.title}</h4>
-                      <p className="text-[0.5rem] sm:text-xs text-gray-500 dark:text-gray-400 font-medium transition-colors">{item.date}</p>
+          <div className="mb-16">
+            <h3 className="font-raleway font-bold text-[#365E02] text-xl mb-6 uppercase tracking-wider">NEWS</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newsItems.map((item, idx) => (
+                <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-transform cursor-pointer flex flex-col">
+                  <div className="relative h-40">
+                    <img src={item.img} alt={item.title} className="w-full h-full object-cover rounded-xl" />
+                    <div className="absolute top-[-10px] left-[10px] bg-[#365E02] text-white text-[0.6rem] font-bold px-3 py-1.5 text-center leading-tight shadow-md">
+                      {item.date.split(' ')[0]} <br /> <div className="border-b py-1 relative top-[-4px]"></div> {item.date.split(' ')[1]} <br /> {item.date.split(' ')[2]}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Pagination Controls */}
-            <div className="flex justify-center items-center gap-2 sm:gap-4 mt-6 sm:mt-8">
-              <button onClick={() => prevSlide(setActiveNews, newsItems.length)} className="text-[#1a5b8c] dark:text-blue-400 hover:text-[#35a4cc] hover:-translate-x-1 transition-all font-black text-lg sm:text-xl px-2">&lt;</button>
-              <div className="flex gap-2 sm:gap-3 items-center">
-                {newsItems.map((_, idx) => (
-                  <span
-                    key={idx}
-                    onClick={() => setActiveNews(idx)}
-                    className={`rounded-full cursor-pointer transition-all duration-500 ${activeNews === idx ? 'bg-[#1a5b8c] dark:bg-blue-400 w-4 sm:w-6 h-2 sm:h-3' : 'border-2 border-[#1a5b8c] dark:border-blue-400 bg-transparent hover:bg-[#1a5b8c]/30 dark:hover:bg-blue-400/30 w-2 sm:w-3 h-2 sm:h-3'}`}
-                  ></span>
-                ))}
-              </div>
-              <button onClick={() => nextSlide(setActiveNews, newsItems.length)} className="text-[#1a5b8c] dark:text-blue-400 hover:text-[#35a4cc] hover:translate-x-1 transition-all font-black text-lg sm:text-xl px-2">&gt;</button>
+                  <div className="p-5 flex-grow flex flex-col justify-between">
+                    <h4 className="font-bold text-[#04578F] dark:text-blue-300 text-sm leading-snug mb-4 line-clamp-3">{item.title}</h4>
+                    <span className="text-[#60b613] text-[0.65rem] font-bold font-raleway">Read More</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* FEATURED PROJECT BLOCK */}
-          <div className="mb-16 relative">
-            <h3 className="font-raleway font-bold text-[#1a5b8c] dark:text-blue-300 text-xl mb-8 px-4 md:px-8 text-center md:text-left transition-colors">FEATURED PROJECT</h3>
-
-            <div className="relative w-full h-[150px] flex justify-center items-center overflow-visible">
-              {projectItems.map((item, idx) => {
-                const diff = (idx - activeProject + projectItems.length) % projectItems.length;
-                let positionClasses = "opacity-0 scale-75 z-0 pointer-events-none";
-
-                if (diff === 0) {
-                  positionClasses = "translate-x-0 scale-100 z-30 opacity-100 shadow-2xl";
-                } else if (diff === 1) {
-                  positionClasses = "translate-x-[105%] md:translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-80";
-                } else if (diff === projectItems.length - 1) {
-                  positionClasses = "-translate-x-[105%] md:-translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-80";
-                }
-
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => setActiveProject(idx)}
-                    className={`absolute transition-all duration-700 ease-in-out cursor-pointer w-[340px] md:w-[400px] flex items-center bg-white dark:bg-slate-800 border border-[#b6def4] dark:border-slate-700 rounded-2xl p-2 ${positionClasses}`}
-                  >
-                    <div className="w-32 h-24 rounded-xl overflow-hidden shrink-0 bg-gray-100 dark:bg-slate-700">
-                      <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="pl-4 pr-2">
-                      <h4 className="font-bold text-[#1a5b8c] dark:text-blue-300 text-sm leading-tight line-clamp-3 mb-2 transition-colors">{item.title}</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium transition-colors">{item.date}</p>
+          <div>
+            <h3 className="font-raleway font-bold text-[#04578F] text-xl mb-6 uppercase tracking-wider">PROJECTS</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {projectItems.map((item, idx) => (
+                <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-transform cursor-pointer flex flex-col">
+                  <div className="relative h-40">
+                    <img src={item.img} alt={item.title} className="w-full h-full object-cover rounded-xl" />
+                    <div className="absolute top-[-10px] left-[10px] bg-[#04578F] text-white text-[0.6rem] font-bold px-3 py-1.5 text-center leading-tight shadow-md">
+                      {item.date.split(' ')[0]} <br /> <div className="border-b py-1 relative top-[-4px]"></div> {item.date.split(' ')[1]} <br /> {item.date.split(' ')[2]}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-
-            <div className="relative flex justify-center gap-4 mt-8">
-              <button onClick={() => prevSlide(setActiveProject, projectItems.length)} className="text-[#1a5b8c] dark:text-blue-400 hover:text-[#35a4cc] hover:-translate-x-1 transition-all font-black text-xl px-2">&lt;</button>
-              <div className="flex gap-3 items-center">
-                {projectItems.map((_, idx) => (
-                  <span
-                    key={idx}
-                    onClick={() => setActiveProject(idx)}
-                    className={`rounded-full cursor-pointer transition-all duration-500 ${activeProject === idx ? 'bg-[#1a5b8c] dark:bg-blue-400 w-6 h-3' : 'border-2 border-[#1a5b8c] dark:border-blue-400 bg-transparent hover:bg-[#1a5b8c]/30 dark:hover:bg-blue-400/30 w-3 h-3'}`}
-                  ></span>
-                ))}
-              </div>
-              <button onClick={() => nextSlide(setActiveProject, projectItems.length)} className="text-[#1a5b8c] dark:text-blue-400 hover:text-[#35a4cc] hover:translate-x-1 transition-all font-black text-xl px-2">&gt;</button>
+                  <div className="p-5 flex-grow flex flex-col justify-between">
+                    <h4 className="font-bold text-[#365E02] dark:text-blue-300 text-sm leading-snug mb-4 line-clamp-3">{item.title}</h4>
+                    <span className="text-[#04578F] text-[0.65rem] font-bold font-raleway">Read More</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* THE GUIDE SECTION (3D State Carousel) */}
-        <section className="bg-gradient-to-b from-[#eaffd9] to-[#35a4cc] dark:from-green-950 dark:to-slate-900 rounded-3xl py-16 overflow-hidden shadow-inner my-12 transition-colors duration-500">
-          <div className="text-center mb-16 px-4">
-            <h2 className="font-raleway text-3xl md:text-5xl text-[#467405] dark:text-green-400 tracking-wide transition-colors">
-              A <span className="font-black">GUIDE</span> ON SOLID WASTE <br /> MANAGEMENT
-            </h2>
+        {/* ========================================= */}
+        {/* 6. A GUIDE ON SOLID WASTE MANAGEMENT      */}
+        {/* ========================================= */}
+        <section className="w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-5xl font-black text-[#365E02] uppercase leading-tight">
+                A Guide on Solid <br /> Waste Management
+              </h2>
+              <p className="mt-4 font-merriweather italic text-emb-green">
+                A quick visual guide to waste segregation, covering six categories from recyclables to hazardous waste with color-coded cards for easy identification.
+              </p>
+            </div>
+            {/* Nav Arrows */}
+            <div className="flex gap-4">
+              <button onClick={() => setActiveGuide(p => (p === 0 ? 5 : p - 1))} className="p-3 bg-[#365E02] text-white rounded-xl hover:scale-105 transition-transform shadow-lg">
+                <ArrowDown className="rotate-90 w-6 h-6" />
+              </button>
+              <button onClick={() => setActiveGuide(p => (p === 5 ? 0 : p + 1))} className="p-3 bg-[#365E02] text-white rounded-xl hover:scale-105 transition-transform shadow-lg">
+                <ArrowDown className="-rotate-90 w-6 h-6" />
+              </button>
+            </div>
           </div>
 
-          <div className="relative w-full h-[520px] md:h-[580px] flex justify-center items-center overflow-visible">
+          {/* ACCORDION SLIDER */}
+          <div className="flex flex-col lg:flex-row w-full gap-3 md:gap-4 min-h-[600px] lg:h-[450px]">
             {guideItems.map((item, idx) => {
-              const diff = (idx - activeGuide + guideItems.length) % guideItems.length;
-              let positionClasses = "opacity-0 scale-75 z-0 pointer-events-none";
-
-              if (diff === 0) {
-                positionClasses = "translate-x-0 scale-100 z-30 opacity-100 shadow-2xl";
-              } else if (diff === 1) {
-                positionClasses = "translate-x-[105%] md:translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-90";
-              } else if (diff === guideItems.length - 1) {
-                positionClasses = "-translate-x-[105%] md:-translate-x-[110%] scale-[0.85] z-20 opacity-50 hover:opacity-90";
-              }
-
+              const isActive = activeGuide === idx;
               return (
                 <div
                   key={idx}
                   onClick={() => setActiveGuide(idx)}
-                  className={`absolute transition-all duration-700 ease-in-out cursor-pointer w-[350px] md:w-[450px] h-[500px] md:h-[550px] bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-white/50 dark:border-slate-700 ${positionClasses}`}
+                  className={`
+                    relative overflow-hidden cursor-pointer shadow-xl
+                    transition-all duration-700 ease-[cubic-bezier(0.4, 0, 0.2, 1)]
+                    flex flex-col
+                    ${isActive
+                      ? `lg:flex-[12] h-[550px] lg:h-full rounded-[1.5rem] md:rounded-[1.5rem] ${item.bgOpenMobile} ${item.bgOpen}`
+                      : `lg:flex-[1.2] h-[64px] md:h-[80px] lg:h-full hover:scale-[1.02] rounded-[1.5rem] md:rounded-[1.5rem] ${item.bgClose}`
+                    }
+                  `}
                 >
-                  <div className={`absolute top-0 w-full h-56 bg-gradient-to-b ${item.color} to-transparent opacity-80 dark:opacity-60`}></div>
-                  <div className="absolute top-6 right-6 text-white text-3xl drop-shadow-md">★</div>
-
-                  <div className="relative z-10 p-10 flex flex-col h-full mt-20">
-                    <div className="w-36 h-28 mx-auto mb-10 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-500">
-                      <img src={item.icon} alt="guide icon" className="w-full h-full object-contain" />
-                    </div>
-                    <h3 className={`font-raleway font-black text-3xl my-4 ${item.text} transition-colors`}>{item.type}</h3>
-                    <p className="font-merriweather text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-8 flex-grow transition-colors">{item.desc}</p>
-                    <button className={`font-bold text-base ${item.text} flex items-center gap-2 group transition-transform w-fit`}>
-                      Learn more <span className="group-hover:translate-x-2 transition-transform duration-300">&rarr;</span>
-                    </button>
+                  {/* CLOSED STATE MOBILE TEXT (Horizontal Bar) */}
+                  <div className={`
+                    lg:hidden absolute inset-0 flex items-center justify-between w-full px-6 md:px-8 text-white
+                    transition-opacity duration-300
+                    ${isActive ? 'opacity-0 pointer-events-none z-0' : 'opacity-100 z-10'}
+                  `}>
+                    <span className="font-extrabold text-sm md:text-base tracking-widest uppercase truncate pr-4">{item.type}</span>
+                    <span className="text-xl shrink-0">★</span>
                   </div>
+
+                  {/* OPEN STATE CONTENT */}
+                  <div className={`
+                    flex flex-col lg:flex-row absolute top-0 left-0 w-full h-[550px] lg:h-full
+                    transition-all duration-500
+                    ${isActive ? 'z-10 pointer-events-auto opacity-100' : 'z-0 pointer-events-none opacity-0'}
+                  `}>
+
+                    {/* ICON SIDE */}
+                    <div className={`
+                      flex-[4.5] lg:flex-[4] p-6 lg:p-8 flex flex-col justify-center lg:justify-between items-center lg:items-start relative
+                      transition-opacity duration-500 delay-100
+                      ${isActive ? 'opacity-100' : 'opacity-0'}
+                    `}>
+                      <span className="text-white text-3xl hidden lg:block absolute top-8 left-8">★</span>
+                      <div className="flex-1 flex items-center justify-center w-full">
+                        <img
+                          src={icons[idx]}
+                          alt={`${item.type} icon`}
+                          className={`
+                            transition-all duration-700 delay-100 object-contain drop-shadow-2xl
+                            ${isActive ? 'w-44 lg:w-64 scale-110' : 'w-10 lg:w-16 grayscale opacity-40'}
+                          `}
+                        />
+                      </div>
+                    </div>
+
+                    {/* TEXT SIDE */}
+                    <div className={`
+                      flex-[5.5] lg:flex-[6] flex flex-col justify-end lg:justify-center p-3 sm:p-5 lg:p-12 overflow-hidden
+                      transition-all duration-700 ease-[cubic-bezier(0.4, 0, 0.2, 1)]
+                      ${isActive ? 'translate-y-0 lg:translate-x-0 opacity-100 delay-200' : 'translate-y-12 lg:translate-y-0 lg:translate-x-12 opacity-0 delay-0'}
+                    `}>
+                      <div className="px-6 py-8 lg:p-10 xl:p-12 flex flex-col justify-center w-full lg:w-[380px] xl:w-[450px] h-full lg:h-auto shrink-0 ">
+                        <h3 className={`font-black text-2xl lg:text-3xl xl:text-4xl mb-3 lg:mb-4 leading-tight uppercase ${item.text}`}>
+                          {item.type}
+                        </h3>
+                        <p className="text-gray-600 text-xs sm:text-sm lg:text-base mb-5 lg:mb-6 leading-relaxed">
+                          {item.desc}
+                        </p>
+                        <button className={`font-black flex items-center gap-2 uppercase tracking-widest text-[10px] md:text-xs hover:gap-4 transition-all w-max ${item.text}`}>
+                          Learn More <span className="text-lg md:text-xl">→</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* VERTICAL TITLE (Desktop Closed) */}
+                  {!isActive && (
+                    <div className="hidden lg:flex absolute inset-0 items-center justify-center transition-opacity duration-300 delay-300 pointer-events-none">
+                      <span className="text-white font-black text-lg tracking-[0.3em] uppercase whitespace-nowrap -rotate-90 origin-center opacity-80">
+                        {item.type.split(' ')[0]}
+                      </span>
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
 
-          {/* Guide Controls */}
-          <div className="flex justify-center items-center gap-6 text-white mt-12 relative z-10">
-            <button onClick={() => prevSlide(setActiveGuide, guideItems.length)} className="text-3xl hover:-translate-x-2 transition-transform font-black px-4 drop-shadow-md">&lt;</button>
-            <div className="flex gap-4 items-center">
-              {guideItems.map((_, idx) => (
-                <span
-                  key={idx}
-                  onClick={() => setActiveGuide(idx)}
-                  className={`rounded-full cursor-pointer transition-all duration-500 ${activeGuide === idx ? 'bg-white shadow-md w-8 h-3' : 'border-2 border-white bg-transparent hover:bg-white/50 w-3 h-3'}`}
-                ></span>
-              ))}
-            </div>
-            <button onClick={() => nextSlide(setActiveGuide, guideItems.length)} className="text-3xl hover:translate-x-2 transition-transform font-black px-4 drop-shadow-md">&gt;</button>
+          {/* PROGRESS BAR */}
+          <div className="mt-12 w-full max-w-md mx-auto h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-[#365E02] transition-all duration-700 ease-out rounded-full"
+              style={{ width: `${((activeGuide + 1) / 6) * 100}%` }}
+            />
           </div>
         </section>
 

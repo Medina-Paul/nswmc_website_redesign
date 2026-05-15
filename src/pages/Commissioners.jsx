@@ -5,7 +5,7 @@ import peter_quintana from '../assets/peter_quintana.png';
 import joseph_jocson from '../assets/joseph_jocson.png';
 import marlon_era from '../assets/marlon_era.png';
 import marlon_pareja from '../assets/marlon_pareja.png';
-import { Info, X } from 'lucide-react'; 
+import { Info, X } from 'lucide-react';
 
 const commissionersData = [
     {
@@ -91,9 +91,9 @@ const Commissioners = () => {
     return (
         <Layout>
             <div id='commissioners' className="w-full relative min-h-screen pb-24 overflow-hidden flex flex-col items-center px-2 sm:px-4">
-                
+
                 <div className="relative z-10 w-full max-w-6xl mx-auto pt-8 md:pt-16 flex flex-col items-center">
-                    
+
                     {/* Header */}
                     <div className="w-full text-center md:text-left mb-8 md:mb-12">
                         <h2 className="font-raleway text-2xl sm:text-4xl md:text-7xl font-black text-[#1a5b8c] dark:text-blue-400 leading-none drop-shadow-sm transition-colors">NSWMC</h2>
@@ -103,8 +103,8 @@ const Commissioners = () => {
                     {/* 1. TOP CARDS DIRECTORY */}
                     <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 md:mb-20">
                         {commissionersData.map((person, idx) => (
-                            <div 
-                                key={idx} 
+                            <div
+                                key={idx}
                                 onClick={() => triggerAnimation(idx)}
                                 className={`w-40 sm:w-52 md:w-64 bg-white dark:bg-slate-800 rounded-xl md:rounded-3xl overflow-hidden shadow-md hover:shadow-2xl border flex flex-col cursor-pointer transition-all duration-300 group
                                     ${activeIndex === idx ? 'border-[#8cc63f] dark:border-green-400 ring-2 ring-[#8cc63f]/30 scale-[1.02]' : 'border-gray-100 dark:border-slate-700 hover:-translate-y-2'}`}
@@ -127,21 +127,21 @@ const Commissioners = () => {
 
                     {/* 2. THE HORIZONTAL LOOPING FEATURED SPOTLIGHT */}
                     <div className="relative w-full flex flex-col items-center pt-8 md:pt-12 border-t border-gray-200 dark:border-slate-800">
-                        
+
                         <h3 className="text-xs md:text-lg font-bold text-gray-500 dark:text-gray-400 italic font-merriweather mb-8 md:mb-12 z-10">FEATURED SPOTLIGHT</h3>
 
                         {/* Background Blurred Blob for the Slider */}
-                        <div 
+                        <div
                             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] z-0 opacity-20 dark:opacity-10 blur-[80px] transition-all duration-1000 bg-cover bg-center pointer-events-none"
                             style={{ backgroundImage: `url(${featuredComm.img})` }}
                         ></div>
 
                         {/* 3D Carousel Container (Using exact requested layout logic) */}
                         <div className="relative w-full h-[280px] sm:h-[380px] md:h-[520px] lg:h-[600px] flex justify-center items-center overflow-visible z-10">
-                            
+
                             {commissionersData.map((item, idx) => {
                                 const diff = (idx - activeIndex + commissionersData.length) % commissionersData.length;
-                                
+
                                 // Reset position classes back to the Guide Section logic
                                 let positionClasses = "opacity-0 scale-75 z-0 pointer-events-none";
 
@@ -156,16 +156,16 @@ const Commissioners = () => {
                                 const isActive = diff === 0;
 
                                 return (
-                                    <div 
+                                    <div
                                         key={idx}
-                                        onClick={() => !isActive && triggerAnimation(idx)} 
+                                        onClick={() => !isActive && triggerAnimation(idx)}
                                         className={`absolute transition-all duration-700 ease-in-out w-[220px] sm:w-[300px] md:w-[420px] h-[260px] sm:h-[380px] md:h-[550px] rounded-xl md:rounded-[2rem] overflow-hidden group border-2 md:border-4 border-white dark:border-slate-800 bg-gray-100 dark:bg-slate-800 ${positionClasses}`}
                                     >
                                         {/* Image */}
                                         <div className="absolute inset-0">
-                                            <img 
-                                                src={item.img} 
-                                                alt={item.name} 
+                                            <img
+                                                src={item.img}
+                                                alt={item.name}
                                                 className="w-full h-full object-cover object-top"
                                             />
                                             {/* Bottom Gradient Overlay */}
@@ -173,7 +173,7 @@ const Commissioners = () => {
                                         </div>
 
                                         {/* Expandable Bio Section (Glassmorphism + Styled Scrollbar) */}
-                                        <div 
+                                        <div
                                             className={`absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-4 md:p-8 overflow-y-auto transition-transform duration-500 ease-in-out z-20 
                                             [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#1a5b8c]/30 dark:[&::-webkit-scrollbar-thumb]:bg-blue-400/30 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-[#1a5b8c]/60 dark:hover:[&::-webkit-scrollbar-thumb]:bg-blue-400/60
                                             ${(isActive && showBio) ? 'translate-y-0' : 'translate-y-full'}`}
@@ -201,11 +201,11 @@ const Commissioners = () => {
                                                         {item.role}
                                                     </div>
                                                 </div>
-                                                
+
                                                 {/* Info Button - Only active on the center card */}
                                                 {isActive && (
-                                                    <button 
-                                                        onClick={toggleBio} 
+                                                    <button
+                                                        onClick={toggleBio}
                                                         className="bg-white/20 backdrop-blur-md p-1.5 md:p-4 rounded-full text-white border border-white/30 hover:bg-white/40 transition-all shadow-xl shrink-0 ml-2 md:ml-4 group-hover:scale-110 group-hover:-translate-y-1"
                                                     >
                                                         <Info size={16} className="md:w-6 md:h-6" />
