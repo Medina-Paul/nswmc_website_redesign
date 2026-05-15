@@ -397,7 +397,7 @@ const Home = () => {
           </div>
 
           {/* ACCORDION SLIDER */}
-          <div className="flex flex-col lg:flex-row w-full gap-3 md:gap-4 min-h-[600px] lg:h-[450px]">
+          <div className="flex flex-col lg:flex-row w-full gap-3 md:gap-4 min-h-[500px] lg:h-[500px] 2xl:h-[750px]">
             {guideItems.map((item, idx) => {
               const isActive = activeGuide === idx;
               return (
