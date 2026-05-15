@@ -152,7 +152,7 @@ const Layout = ({ children }) => {
 
           {/* ROW 2: NAVIGATION LINKS (NEW LINE) */}
           <div className="w-full flex justify-center pb-3 pt-3 px-4">
-            <nav className="font-raleway flex flex-wrap items-center justify-center gap-4 md:gap-8 w-full text-[0.75rem] md:text-[0.85rem] font-bold tracking-tight sm:tracking-normal">
+            <nav className="font-raleway flex flex-wrap items-center justify-center gap-4 md:gap-8 w-full text-[0.6rem] md:text-[0.85rem] font-bold tracking-tight sm:tracking-normal">
               <Link to="/" className="hover:text-emb-blue dark:hover:text-blue-400 transition">HOME</Link>
 
               {/* ABOUT US Dropdown */}
