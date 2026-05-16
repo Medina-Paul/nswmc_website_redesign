@@ -5,7 +5,7 @@ import SWMDLogo from '../assets/denr.svg';
 import bagong_pilipinas_icon from '../assets/bagong_pilipinas.svg';
 import coat_of_arms_icon from '../assets/coat_of_arms.svg';
 import ACCESSIBILITY_BUTTON from '../assets/ACCESSIBILITY_BUTTON.svg'
-import NSWMC_1 from '../assets/NSWMC_1.png';
+import NSWMC_1 from '../assets/NSWMC_1.svg';
 
 const Layout = ({ children }) => {
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
