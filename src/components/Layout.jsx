@@ -96,11 +96,11 @@ const Layout = ({ children }) => {
                 <img src={SWMDLogo} alt="DENR Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
               </div>
               <div className="flex flex-col justify-center">
-                <h1 className="font-raleway dark:text-white text-[0.5rem] md:text-[0.6rem] font-extrabold uppercase tracking-wide leading-tight">
+                <h1 className=" mb-0.5 font-raleway dark:text-white text-[0.5rem] md:text-[0.6rem] font-extrabold uppercase tracking-wide leading-tight">
                   Republic of the Philippines <br />
                   Department of Environment and Natural Resources
                 </h1>
-                <div className="relative pt-1 overflow-hidden rounded-lg bg-white dark:bg-gray-900 shadow-md">
+                <div className="relative  h-[2px] overflow-hidden bg-white dark:bg-gray-900 shadow-md">
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#0020EE] to-[#30D700]"></div>
                 </div>
                 <div className="mt-0.5">
@@ -169,7 +169,7 @@ const Layout = ({ children }) => {
                 </button>
                 {isAboutOpen && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-56 bg-white dark:bg-gray-800 shadow-xl rounded-xl overflow-hidden z-50 border border-gray-100 dark:border-gray-700 text-left tracking-normal flex flex-col">
-                    <Link to="/about" onClick={closeAllDropdowns} className="block px-4 py-3 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-emb-blue dark:hover:text-blue-400 transition">Solid Waste Management Division</Link>
+                    <Link to="/about/solid-waste-management" onClick={closeAllDropdowns} className="block px-4 py-3 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-emb-blue dark:hover:text-blue-400 transition">Solid Waste Management Division</Link>
                     <Link to="/about/org-chart" onClick={closeAllDropdowns} className="block px-4 py-3 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-emb-blue dark:hover:text-blue-400 transition">Organizational Chart</Link>
                     <Link to="/about/commissioners" onClick={closeAllDropdowns} className="block px-4 py-3 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-emb-blue dark:hover:text-blue-400 transition">NSWMC Commissioners</Link>
                     <Link to="/about/citizens-charter" onClick={closeAllDropdowns} className="block px-4 py-3 text-xs text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-emb-blue dark:hover:text-blue-400 transition">Citizen's Charter on SWM</Link>

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Import all your page components
 import Home from './pages/Home';
-import About from './pages/About';
+import SolidWasteManagement from './pages/SolidWasteManagement';
 import OrgChart from './pages/OrgChart';
 import Commissioners from './pages/Commissioners';
 import CitizenCharter from './pages/CitizenCharter';
@@ -18,7 +18,7 @@ const App = () => {
       {/* The Routes component switches between pages based on the URL */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about/solid-waste-management" element={<SolidWasteManagement />} />
         <Route path="/about/org-chart" element={<OrgChart />} />
         <Route path="/about/commissioners" element={<Commissioners />} />
         <Route path="/about/citizens-charter" element={<CitizenCharter />} />

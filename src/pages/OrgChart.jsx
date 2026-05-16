@@ -1,6 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout';
-import swmd_logo from '../assets/swmd_logo.png';
+
 
 // --- Staff portraits (drop the matching PNGs into src/assets/orgpics/) ---
 import valdez_img from '../assets/orgpics/maria.png';
