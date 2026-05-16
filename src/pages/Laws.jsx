@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Search, Eye, EyeOff } from "lucide-react";
 import Layout from "../components/Layout";
 import laws_icon from "../assets/laws_icon.png";
+import intranet_icon from "../assets/Intranet.svg";
 
 // ---- Adobe Embed config ---------------------------------------------------
 const ADOBE_CLIENT_ID = "5b4f7d150d9445a9a472ed3adfa9714e";
@@ -503,28 +504,48 @@ export default function Laws() {
           </div>
         </div>
 
-        {/* Bottom Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8">
-          <div className="bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
-            <h4 className="font-bold text-orange-500 mb-2 font-raleway text-sm md:text-base">
-              MISSION
-            </h4>
-            <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
-              To protect, restore and enhance environmental quality towards good public health,
-              environmental integrity and economic viability.
-            </p>
-          </div>
+        {/* bottom cards: mission+vision stacked on left, emb intranet on right */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8 items-stretch">
+  {/* left column: mission on top, vision below */}
+  <div className="flex flex-col gap-3 md:gap-4">
+    <div className="flex-1 bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
+      <h4 className="font-bold text-orange-500 mb-2 font-raleway text-sm md:text-base">
+        MISSION
+      </h4>
+      <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
+        To protect, restore and enhance environmental quality towards good public health,
+        environmental integrity and economic viability.
+      </p>
+    </div>
 
-          <div className="bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
-            <h4 className="font-bold text-green-600 dark:text-green-400 mb-2 font-raleway text-sm md:text-base">
-              VISION
-            </h4>
-            <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
-              A nation empowered to protect our natural resources, attuned to the pursuit of
-              sustainable development.
-            </p>
-          </div>
-        </div>
+    <div className="flex-1 bg-white dark:bg-slate-800 p-3 md:p-4 rounded-lg md:rounded-xl shadow-sm transition-colors">
+      <h4 className="font-bold text-green-600 dark:text-green-400 mb-2 font-raleway text-sm md:text-base">
+        VISION
+      </h4>
+      <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400 font-merriweather transition-colors">
+        A nation empowered to protect our natural resources, attuned to the pursuit of
+        sustainable development.
+      </p>
+    </div>
+  </div>
+
+  {/* right column: emb intranet tile, height matches the stacked pair */}
+  <a
+    href="https://emb.gov.ph/emb-intranet/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group flex flex-col items-center justify-center bg-white dark:bg-slate-800 p-6 md:p-8 rounded-lg md:rounded-xl shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:ring-2 hover:ring-[#469038]"
+  >
+    <img
+      src={intranet_icon}
+      alt="EMB Intranet"
+      className="w-24 md:w-32 h-auto mb-3 md:mb-4 transition-transform duration-300 group-hover:scale-110"
+    />
+    <h4 className="font-raleway font-black text-[#469038] dark:text-blue-300 text-lg sm:text-2xl md:text-3xl tracking-wide">
+      EMB INTRANET
+    </h4>
+  </a>
+</div>
       </div>
     </Layout>
   );

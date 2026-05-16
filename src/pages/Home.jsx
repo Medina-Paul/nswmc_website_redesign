@@ -40,18 +40,24 @@ const Home = () => {
   }).format(currentTime);
 
   const dashboardCards = [
-    { title: 'SWM Data Dashboards', description: 'The dashboard provides real-time waste collection updates, monitors major village bins, and supports composting decisions....', link: '/dashboards/10-year-plan' },
-    { title: 'NSWMC Resolutions', description: 'NSWMC resolutions provide policies and guidelines that strengthen waste management practices and support sustainable environmental programs.', link: '#' },
-    { title: 'EPR Registry', description: "The Extended Producer Responsibility Registry tracks and monitors producers' compliance with waste recovery and sustainability obligations.", link: '#' },
-    { title: 'Junk Shops and Recycling Facilities', description: 'Directory and information hub for recycling centers and junk shops.', link: '#' },
-    { title: 'SWM Facility Designs', description: 'Standardized plans and layouts for solid waste management facilities.', link: '#' },
-    { title: 'National Plan of Action for Marine Litter', description: 'Strategies to reduce and manage marine litter nationwide.', link: '#' },
-    { title: 'Non-Environmentally Acceptable Products', description: 'List and guidelines on products harmful to the environment.', link: '#' },
-    { title: 'Waste Analysis Characterization Study Manual', description: 'Reference guide for conducting waste analysis studies.', link: '#' },
-    { title: 'World Bank Group Plastic Roadmap', description: 'Framework for reducing plastic waste and improving circularity.', link: '#' },
-    { title: 'UN-Habitat Marine Litter Learning Kit', description: 'Educational resources on preventing marine litter.', link: '#' }
+    { title: 'SWM Data Dashboards', description: 'The dashboard provides real-time waste collection updates, monitors major village bins, and supports composting decisions....', link: '/dashboards/10-year-plan' },  // ideally it should have main page but for now i will just link to the 10 year plan dashboard
+    { title: 'NSWMC Resolutions', description: 'NSWMC resolutions provide policies and guidelines that strengthen waste management practices and support sustainable environmental programs.', link: 'https://drive.google.com/drive/folders/1T_HAuUuTbOOplqcPoxx5Ec-53ul13d_j' },
+    { title: 'EPR Registry', description: "The Extended Producer Responsibility Registry tracks and monitors producers' compliance with waste recovery and sustainability obligations.", link: 'https://epr.emb.gov.ph/' },
+    { title: 'Junk Shops and Recycling Facilities', description: 'Directory and information hub for recycling centers and junk shops.', link: 'https://drive.google.com/file/d/1vn3dvEkg9f8RVKPUqOBCimQCe8vMgZ98' },
+    { title: 'SWM Facility Designs', description: 'Standardized plans and layouts for solid waste management facilities.', link: 'https://drive.google.com/drive/folders/1nckZ0KgsjI7wu9M4YKQd9taiey1ODk7x' },
+    { title: 'National Plan of Action for Marine Litter', description: 'Strategies to reduce and manage marine litter nationwide.', link: 'https://drive.google.com/drive/folders/1Nc6hyMx0DJuJKI75HnFlbcyanoUqwqoc' },
+    { title: 'Non-Environmentally Acceptable Products', description: 'List and guidelines on products harmful to the environment.', link: 'https://drive.google.com/drive/folders/1GBSyu_WHXGoZ1NWB8lBLuv9baENUPNtH' },
+    { title: 'Waste Analysis Characterization Study Manual', description: 'Reference guide for conducting waste analysis studies.', link: 'https://drive.google.com/drive/folders/1SsdmPRoDOBFqVh81xsMA78Bs2aJ9S5G-' },
+    { title: 'World Bank Group Plastic Roadmap', description: 'Framework for reducing plastic waste and improving circularity.', link: 'https://drive.google.com/drive/folders/1GIlsPnQGbb914aUnhDBrnah2O7sWC6QA' },
+    { title: 'UN-Habitat Marine Litter Learning Kit', description: 'Educational resources on preventing marine litter.', link: 'https://unhabitat.org.ph/wp-content/uploads/2023/07/HOCCI_Marine-Litter-Learning-Kit_with-DENR_digital.pdf' },
+    { title: 'UNIDO Open Burning Project PH', description: 'Initiative addressing the impacts of open waste burning in the Philippines.', link: 'https://drive.google.com/drive/folders/15LvvNKHMMzDPafgk91fqAecvkFukHVWU' },
+    { title: 'JICA TCP Outputs', description: 'Reports and deliverables from JICA technical cooperation projects.', link: 'https://drive.google.com/drive/folders/1TryMCsd8vbtohTYxwCv86WJbrkQVg5Wr' },
+    { title: 'SMEC Waste-to-Energy Study', description: 'Research on converting waste into usable energy solutions.', link: 'https://drive.google.com/drive/folders/1R2xFrdwoqY9yn1QXaIOocKXGsJql2EE0' },
+    { title: 'Nestle Student Modules', description: 'Learning materials on sustainability and responsible waste practices.', link: 'https://drive.google.com/drive/folders/1z5L_1ejrgNw8KzfZ-spWyVBY1YTllX9U' },
+    { title: 'LGU Good Practices', description: 'Collection of successful waste management initiatives by local governments.', link: 'https://drive.google.com/drive/folders/1rE2VulXT9_GGsEBnlUyj_AGNOKCi-lCH' },
+    { title: 'Climate Change Reports', description: 'Collection of national and global reports focused on climate change.', link: 'https://drive.google.com/drive/folders/1aBF3E3_Jtn-xmW-UHQDwzUq7OLAtYnUD' }
   ];
-
+  
   const newsItems = [
     { title: 'DENR-EMB Continues Air Quality Monitoring Following Navotas Landfill Fire', date: '29 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=300&h=200&fit=crop' },
     { title: 'Earth Day 2026: "Our Power, Our Planet"', date: '22 April 2026', type: 'NEWS', img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=300&h=200&fit=crop' },
@@ -291,7 +297,7 @@ const Home = () => {
                   {filteredDashboardCards.map((item, i) => (
                     <a
                       key={i}
-                      href="#"
+                      href={item.link}
                       className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 md:p-7 overflow-hidden border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col"
                     >
                       {/* Background gradient overlay on hover */}
