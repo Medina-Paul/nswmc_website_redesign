@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
 import transparent_seal from '../assets/transparency_seal.svg';
 import foi_seal from '../assets/foi.svg';
-import { Search, ArrowDown } from 'lucide-react';
+import { Search, ArrowDown, X } from 'lucide-react';
 import hero_banner_2 from '../assets/hero_banner_2.svg';
 import guide_icon_1 from '../assets/guide_icon_1.png';
 import guide_icon_2 from '../assets/guide_icon_2.png';
@@ -11,6 +11,144 @@ import guide_icon_3 from '../assets/guide_icon_3.png';
 import guide_icon_4 from '../assets/guide_icon_4.png';
 import guide_icon_5 from '../assets/guide_icon_5.png';
 import guide_icon_6 from '../assets/guide_icon_6.png';
+import jicaWacsManual from '../pdf_files/JICA-WACS-Manual-Centerfold-20Jun13-FINAL.pdf';
+
+// adobe embed config
+const ADOBE_CLIENT_ID = '5b4f7d150d9445a9a472ed3adfa9714e';
+const ADOBE_SCRIPT_SRC = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
+
+// load the adobe view sdk once and resolve when AdobeDC is ready
+const loadAdobeViewSDK = () => {
+  if (typeof window === 'undefined') return Promise.reject(new Error('SSR'));
+  if (window.AdobeDC) return Promise.resolve(window.AdobeDC);
+  const existing = document.querySelector(`script[src="${ADOBE_SCRIPT_SRC}"]`);
+  if (!existing) {
+    const s = document.createElement('script');
+    s.src = ADOBE_SCRIPT_SRC;
+    s.async = true;
+    document.head.appendChild(s);
+  }
+  return new Promise((resolve, reject) => {
+    if (window.AdobeDC) return resolve(window.AdobeDC);
+    document.addEventListener('adobe_dc_view_sdk.ready', () => resolve(window.AdobeDC), { once: true });
+    setTimeout(() => {
+      if (window.AdobeDC) resolve(window.AdobeDC);
+      else reject(new Error('Adobe View SDK failed to load'));
+    }, 15000);
+  });
+};
+
+// popup pdf viewer using adobe embed
+const PdfLightbox = ({ open, onClose, fileUrl, title }) => {
+  const divId = 'adobe-dc-view-lightbox';
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  // close on escape and lock body scroll while open
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open, onClose]);
+
+  // render the pdf when the lightbox opens
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    setLoading(true);
+    setErr(null);
+
+    loadAdobeViewSDK()
+      .then((AdobeDC) => {
+        if (cancelled) return;
+        const host = document.getElementById(divId);
+        if (host) host.innerHTML = '';
+        const view = new AdobeDC.View({ clientId: ADOBE_CLIENT_ID, divId });
+        view.previewFile(
+          {
+            content: { location: { url: fileUrl } },
+            metaData: { fileName: title || 'document.pdf' },
+          },
+          {
+            embedMode: 'SIZED_CONTAINER',
+            defaultViewMode: 'FIT_WIDTH',
+            showAnnotationTools: false,
+            showLeftHandPanel: false,
+            showDownloadPDF: true,
+            showPrintPDF: true,
+            showFullScreen: true,
+          }
+        );
+        setLoading(false);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setErr(e.message || 'Failed to load PDF viewer');
+        setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [open, fileUrl, title]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[1000] bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 md:p-8"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-6xl h-[85vh] bg-white dark:bg-slate-950 rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="bg-gradient-to-r from-[#1a5b8c] to-[#35a4cc] text-white px-4 md:px-6 py-3 flex items-center justify-between">
+          <span className="font-raleway font-bold text-sm md:text-base tracking-widest truncate pr-4">
+            {title}
+          </span>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-full p-2 hover:bg-white/15 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="relative flex-1 bg-slate-50 dark:bg-slate-900">
+          {loading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+              <div className="w-12 h-12 border-4 border-[#1a5b8c]/20 border-t-[#1a5b8c] rounded-full animate-spin" />
+              <p className="mt-4 font-raleway font-bold text-[#1a5b8c] dark:text-blue-400 animate-pulse">
+                Loading Document...
+              </p>
+            </div>
+          )}
+          {err && !loading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center z-10">
+              <p className="font-bold text-red-600">Could not load the PDF.</p>
+              <p className="mt-2 text-xs text-gray-600">{err}</p>
+              <a
+                href={fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 px-4 py-2 bg-[#1a5b8c] hover:bg-[#15486f] text-white font-bold rounded-full text-xs"
+              >
+                Open PDF in new tab
+              </a>
+            </div>
+          )}
+          <div id={divId} className="w-full h-full" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const HERO_BG = "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=2000&auto=format&fit=crop";
 
@@ -127,6 +265,7 @@ const Home = () => {
 
   const [activeGuide, setActiveGuide] = useState(0);
   const [archiveQuery, setArchiveQuery] = useState('');
+  const [pdfOpen, setPdfOpen] = useState(false);
 
   const filteredDashboardCards = useMemo(() => {
     const q = archiveQuery.trim().toLowerCase();
@@ -206,15 +345,30 @@ const Home = () => {
         {/* 2. RIBBON BAR                             */}
         {/* ========================================= */}
         <section className="w-full flex justify-around md:gap-8 py-6 bg-white dark:bg-gray-950 text-[#365E02] dark:text-blue-400 font-bold text-[0.8rem] md:text-[1.2rem] lg:text-[1.5rem] transition-colors duration-500">
-          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+          <a
+            href="http://www.gov.ph/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 transition-all duration-200 hover:opacity-80 hover:scale-105"
+          >
             GOVPH
-          </div>
-          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+          </a>
+          <a
+            href="https://www.foi.gov.ph/requests/?status=&category=&q=Environmental+Management+Bureau"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 transition-all duration-200 hover:opacity-80 hover:scale-105"
+          >
             <img className='w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10' src={foi_seal} alt="FOI" /> FREEDOM OF INFORMATION
-          </div>
-          <div className="flex items-center gap-2 hover:opacity-80 cursor-pointer">
+          </a>
+          <a
+            href="https://emb.gov.ph/transparency-seal-2/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 transition-all duration-200 hover:opacity-80 hover:scale-105"
+          >
             <img className='w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10' src={transparent_seal} alt="Transparency" /> TRANSPARENCY SEAL
-          </div>
+          </a>
         </section>
 
         {/* ========================================= */}
@@ -469,7 +623,11 @@ const Home = () => {
                         <p className="text-gray-600 text-xs sm:text-sm lg:text-base mb-5 lg:mb-6 leading-relaxed">
                           {item.desc}
                         </p>
-                        <button className={`font-black flex items-center gap-2 uppercase tracking-widest text-[10px] md:text-xs hover:gap-4 transition-all w-max ${item.text}`}>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); setPdfOpen(true); }}
+                          className={`font-black flex items-center gap-2 uppercase tracking-widest text-[10px] md:text-xs hover:gap-4 transition-all w-max cursor-pointer ${item.text}`}
+                        >
                           Learn More <span className="text-lg md:text-xl">→</span>
                         </button>
                       </div>
@@ -499,6 +657,13 @@ const Home = () => {
         </section>
 
       </div>
+
+      <PdfLightbox
+        open={pdfOpen}
+        onClose={() => setPdfOpen(false)}
+        fileUrl={jicaWacsManual}
+        title="JICA WACS Manual"
+      />
     </Layout>
   );
 };

@@ -89,25 +89,65 @@ const Layout = ({ children }) => {
           {/* ROW 1: LOGO & ACCESSIBILITY BUTTON */}
           <div className="flex justify-between items-center w-full py-3 px-4 md:px-8">
             
-            {/* LEFT: LOGO & TITLE */}
+            {/* left: logo and title */}
             <div className="flex items-center space-x-2 md:space-x-3 shrink-0">
               <div className="flex items-center justify-center gap-1 sm:gap-2 shrink-0">
-                <img src={NSWMC_1} alt="NSWMC Logo" className="w-12 h-14 md:w-15 md:h-15 object-contain" />
-                <img src={SWMDLogo} alt="DENR Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+                <a
+                  href="https://nswmc-website-redesign-wpa5.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="NSWMC homepage"
+                  className="inline-block transition-transform duration-200 ease-out hover:scale-105"
+                >
+                  <img src={NSWMC_1} alt="NSWMC Logo" className="w-12 h-14 md:w-15 md:h-15 object-contain" />
+                </a>
+                <a
+                  href="https://denr.gov.ph/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="DENR website"
+                  className="inline-block transition-transform duration-200 ease-out hover:scale-105"
+                >
+                  <img src={SWMDLogo} alt="DENR Logo" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+                </a>
               </div>
               <div className="flex flex-col justify-center">
                 <h1 className=" mb-0.5 font-raleway dark:text-white text-[0.5rem] md:text-[0.6rem] font-extrabold uppercase tracking-wide leading-tight">
                   Republic of the Philippines <br />
-                  Department of Environment and Natural Resources
+                  <a
+                    href="https://nswmc-website-redesign-wpa5.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-emb-blue dark:hover:text-blue-400 transition-colors"
+                  >
+                    Department of Environment and Natural Resources
+                  </a>
                 </h1>
                 <div className="relative  h-[2px] overflow-hidden bg-white dark:bg-gray-900 shadow-md">
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#0020EE] to-[#30D700]"></div>
                 </div>
                 <div className="mt-0.5">
                   <h2 className="font-raleway text-black dark:text-white text-[0.55rem] md:text-[0.65rem] font-medium uppercase tracking-widest leading-tight">
-                    Environmental Management Bureau <br />
+                    <a
+                      href="https://emb.gov.ph/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-emb-blue dark:hover:text-blue-400 transition-colors"
+                    >
+                      Environmental Management Bureau
+                    </a>
+                    <br />
                   </h2>
-                  <h2 className="text-[0.55rem] md:text-[0.65rem] font-bold">SOLID WASTE MANAGEMENT DIVISION</h2>
+                  <h2 className="text-[0.55rem] md:text-[0.65rem] font-bold">
+                    <a
+                      href="https://nswmc-website-redesign-wpa5.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-emb-blue dark:hover:text-blue-400 transition-colors"
+                    >
+                      SOLID WASTE MANAGEMENT DIVISION
+                    </a>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -232,10 +272,22 @@ const Layout = ({ children }) => {
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">About GovPH</h3>
             <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">Learn more about the Philippine government, its structure, how government works and the people behind it.</p>
-            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-2 underline cursor-pointer hover:text-emb-blue dark:hover:text-blue-400">
-              <li>GOV.PH</li>
-              <li>Open Data Portal</li>
-              <li>Official Gazette</li>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+              <li>
+                <a href="http://www.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  GOV.PH
+                </a>
+              </li>
+              <li>
+                <a href="https://www.gov.ph/data" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Open Data Portal
+                </a>
+              </li>
+              <li>
+                <a href="https://www.officialgazette.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Official Gazette
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -246,33 +298,58 @@ const Layout = ({ children }) => {
 
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">Government Links</h3>
-            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-2 underline cursor-pointer hover:text-emb-blue dark:hover:text-blue-400">
-              <li>Office of the President</li>
-              <li>Office of the Vice President</li>
-              <li>Senate of the Philippines</li>
-              <li>House of Representatives</li>
-              <li>Supreme Court</li>
-              <li>Court of Appeals</li>
-              <li>Sandigan Bayan</li>
+            <ul className="text-xs text-gray-500 dark:text-gray-400 space-y-2">
+              <li>
+                <a href="https://op-proper.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Office of the President
+                </a>
+              </li>
+              <li>
+                <a href="https://ovp.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Office of the Vice President
+                </a>
+              </li>
+              <li>
+                <a href="https://www.senate.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Senate of the Philippines
+                </a>
+              </li>
+              <li>
+                <a href="https://www.congress.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  House of Representatives
+                </a>
+              </li>
+              <li>
+                <a href="https://sc.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Supreme Court
+                </a>
+              </li>
+              <li>
+                <a href="https://ca.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Court of Appeals
+                </a>
+              </li>
+              <li>
+                <a href="https://sb.judiciary.gov.ph/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 transition-colors duration-200 hover:text-[#365E02] dark:hover:text-[#6ca924]">
+                  Sandigan Bayan
+                </a>
+              </li>
             </ul>
           </div>
 
-          {/* Social Icons Section */}
+          {/* social icons */}
           <div>
             <h3 className="font-bold text-gray-900 dark:text-white mb-4 text-sm">Follow Us On</h3>
             <div className="flex space-x-4">
-              {/* Facebook Icon */}
-              <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-emb-blue hover:text-white dark:hover:bg-blue-500 dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+              <a href="https://www.facebook.com/DENREnviBureau" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-[#365E02] hover:text-white dark:hover:bg-[#6ca924] dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
               </a>
 
-              {/* Instagram Icon */}
-              <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-emb-blue hover:text-white dark:hover:bg-blue-500 dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+              <a href="https://www.instagram.com/denrofficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-[#365E02] hover:text-white dark:hover:bg-[#6ca924] dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
               </a>
 
-              {/* X (Twitter) Icon */}
-              <a href="#" aria-label="X (formerly Twitter)" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-emb-blue hover:text-white dark:hover:bg-blue-500 dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+              <a href="https://x.com/DENROfficial" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)" className="w-10 h-10 rounded-full bg-black dark:bg-gray-800 flex items-center justify-center text-emb-blue dark:text-blue-400 hover:bg-[#365E02] hover:text-white dark:hover:bg-[#6ca924] dark:hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
               </a>
             </div>
