@@ -88,8 +88,13 @@ const Layout = ({ children }) => {
 
           {/* ROW 1: LOGO & ACCESSIBILITY BUTTON */}
           <div className="flex justify-between items-center w-full py-3 px-4 md:px-8">
+<<<<<<< HEAD
             
             {/* left: logo and title */}
+=======
+
+            {/* LEFT: LOGO & TITLE */}
+>>>>>>> cfe683b (Update organizational chart page and quick links)
             <div className="flex items-center space-x-2 md:space-x-3 shrink-0">
               <div className="flex items-center justify-center gap-1 sm:gap-2 shrink-0">
                 <a
@@ -154,13 +159,13 @@ const Layout = ({ children }) => {
 
             {/* RIGHT: ACCESSIBILITY TOGGLE */}
             <div className="flex items-center justify-end shrink-0 relative">
-              <img 
+              <img
                 title="Accessibility Options"
                 aria-expanded={isAccessibilityOpen}
-                onClick={() => setIsAccessibilityOpen(!isAccessibilityOpen)} 
-                className="w-12 h-8 md:w-16 md:h-10 rounded-md md:rounded-xl bg-emb-blue text-white flex items-center justify-center cursor-pointer hover:bg-blue-800 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300" 
-                src={ACCESSIBILITY_BUTTON} 
-                alt="Accessibility Options" 
+                onClick={() => setIsAccessibilityOpen(!isAccessibilityOpen)}
+                className="w-12 h-8 md:w-16 md:h-10 rounded-md md:rounded-xl bg-emb-blue text-white flex items-center justify-center cursor-pointer hover:bg-blue-800 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                src={ACCESSIBILITY_BUTTON}
+                alt="Accessibility Options"
               />
 
               {isAccessibilityOpen && (
@@ -254,7 +259,7 @@ const Layout = ({ children }) => {
 
       {/* FOOTER */}
       <footer id="footer" className="w-full relative mt-auto transition-colors duration-300">
-        
+
         <div className="relative top-0 w-full h-[.3rem] bg-gradient-to-r from-emb-blue via-emb-green to-emb-green-light"></div>
 
         <div className="w-full mx-auto px-6 md:px-16 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 bg-footer-bg dark:bg-gray-900">
