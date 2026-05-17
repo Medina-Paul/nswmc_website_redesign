@@ -88,13 +88,8 @@ const Layout = ({ children }) => {
 
           {/* ROW 1: LOGO & ACCESSIBILITY BUTTON */}
           <div className="flex justify-between items-center w-full py-3 px-4 md:px-8">
-<<<<<<< HEAD
-            
-            {/* left: logo and title */}
-=======
 
             {/* LEFT: LOGO & TITLE */}
->>>>>>> cfe683b (Update organizational chart page and quick links)
             <div className="flex items-center space-x-2 md:space-x-3 shrink-0">
               <div className="flex items-center justify-center gap-1 sm:gap-2 shrink-0">
                 <a
